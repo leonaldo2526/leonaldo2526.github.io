@@ -135,11 +135,8 @@
 <script>
 let contrasena = localStorage.getItem("contrasena") || "Chipi14919066";
 
-let productos = JSON.parse(localStorage.getItem("productos")) || [
-  { id: 1, nombre: "iPhone 14", precio: "$3.500.000", foto: "https://i.imgur.com/8mXvBCQ.png", descripcion: "128GB, Nuevo, Sellado" },
-  { id: 2, nombre: "Samsung S23", precio: "$2.800.000", foto: "https://i.imgur.com/8mXvBCQ.png", descripcion: "256GB, Nuevo, Sellado" }
-];
 
+let productos = JSON.parse(localStorage.getItem("productos")) || [];
 function guardarProductos() {
   localStorage.setItem("productos", JSON.stringify(productos));
 }
