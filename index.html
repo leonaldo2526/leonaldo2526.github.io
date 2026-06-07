@@ -46,6 +46,13 @@
     .admin-contenido h3 { color: #a78bfa; margin-bottom: 15px; margin-top: 20px; }
     .admin-producto { background: #1e1b4b; border-radius: 10px; padding: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
     .cargando { text-align: center; padding: 40px; color: #a78bfa; font-size: 18px; }
+    .estrellas { display: flex; gap: 10px; margin-bottom: 15px; font-size: 30px; cursor: pointer; }
+    .estrellas span { opacity: 0.3; transition: opacity 0.2s; }
+    .estrellas span.activa { opacity: 1; }
+    .resena-card { background: #1e1b4b; border-radius: 15px; padding: 15px; margin-bottom: 15px; }
+    .resena-card h4 { color: #a78bfa; margin-bottom: 5px; }
+    .resena-card p { color: #94a3b8; font-size: 14px; margin-top: 5px; }
+    .resena-estrellas { font-size: 18px; margin-bottom: 5px; }
     @keyframes entrar { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
@@ -56,7 +63,30 @@
     <button class="btn-personalizar" onclick="irA('loginPersonalizar')">🎨</button>
     <h1>📱 Leo Mobile</h1>
     <p>Los mejores teléfonos al mejor precio</p>
+    <button onclick="irA('resenas')">⭐ Ver reseñas</button>
     <button onclick="irA('catalogo')">Ver catálogo →</button>
+  </div>
+</div>
+
+<div class="pantalla oculto" id="resenas">
+  <div class="cabecera">
+    <button class="btn-volver" onclick="irA('inicio')">←</button>
+    <h2>⭐ Reseñas</h2>
+  </div>
+  <div class="admin-contenido">
+    <h3>✍️ Deja tu reseña</h3>
+    <input type="text" id="nombreResena" placeholder="Tu nombre">
+    <div class="estrellas" id="estrellasInput">
+      <span onclick="selEstrellas(1)">⭐</span>
+      <span onclick="selEstrellas(2)">⭐</span>
+      <span onclick="selEstrellas(3)">⭐</span>
+      <span onclick="selEstrellas(4)">⭐</span>
+      <span onclick="selEstrellas(5)">⭐</span>
+    </div>
+    <textarea id="comentarioResena" placeholder="Tu comentario"></textarea>
+    <button onclick="agregarResena()">✍️ Publicar reseña</button>
+    <h3>💬 Reseñas de clientes</h3>
+    <div id="listaResenas"><div class="cargando">⏳ Cargando reseñas...</div></div>
   </div>
 </div>
 
@@ -93,6 +123,8 @@
     <input type="text" id="fotoProducto" placeholder="URL de la foto">
     <textarea id="descProducto" placeholder="Descripción"></textarea>
     <button onclick="agregarProducto()">➕ Agregar producto</button>
+    <h3>🗑️ Gestionar reseñas</h3>
+    <div id="listaResenasAdmin"><div class="cargando">⏳ Cargando...</div></div>
     <h3>🛍️ Fondo de la tienda</h3>
     <p style="color:#a78bfa">Color:</p>
     <input type="color" id="colorTienda" value="#0a0a2e">
@@ -144,7 +176,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlRNjt2YANwUD-8iix4cixu7p0ug-EVWQ",
@@ -160,12 +192,87 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 let contrasena = localStorage.getItem("contrasena") || "Chipi14919066";
+let estrellasSeleccionadas = 0;
 
 window.irA = function(pantallaId) {
   document.querySelectorAll(".pantalla").forEach(p => p.classList.add("oculto"));
   document.querySelector("#" + pantallaId).classList.remove("oculto");
   if (pantallaId === "catalogo") cargarProductos();
-  if (pantallaId === "panelAdmin") cargarAdmin();
+  if (pantallaId === "panelAdmin") { cargarAdmin(); cargarResenasAdmin(); }
+  if (pantallaId === "resenas") cargarResenas();
+}
+
+window.selEstrellas = function(n) {
+  estrellasSeleccionadas = n;
+  document.querySelectorAll("#estrellasInput span").forEach((s, i) => {
+    s.classList.toggle("activa", i < n);
+  });
+}
+
+async function cargarResenas() {
+  const lista = document.querySelector("#listaResenas");
+  lista.innerHTML = "<div class='cargando'>⏳ Cargando reseñas...</div>";
+  const snapshot = await getDocs(query(collection(db, "resenas"), orderBy("fecha", "desc")));
+  lista.innerHTML = "";
+  if (snapshot.empty) {
+    lista.innerHTML = "<div class='cargando'>📭 Aún no hay reseñas</div>";
+    return;
+  }
+  snapshot.forEach(d => {
+    const r = d.data();
+    let estrellas = "";
+    for(let i = 0; i < r.estrellas; i++) estrellas += "⭐";
+    lista.innerHTML += `
+      <div class="resena-card">
+        <h4>${r.nombre}</h4>
+        <div class="resena-estrellas">${estrellas}</div>
+        <p>${r.comentario}</p>
+      </div>`;
+  });
+}
+
+async function cargarResenasAdmin() {
+  const lista = document.querySelector("#listaResenasAdmin");
+  lista.innerHTML = "";
+  const snapshot = await getDocs(query(collection(db, "resenas"), orderBy("fecha", "desc")));
+  if (snapshot.empty) {
+    lista.innerHTML = "<div class='cargando'>📭 No hay reseñas</div>";
+    return;
+  }
+  snapshot.forEach(d => {
+    const r = d.data();
+    lista.innerHTML += `
+      <div class="admin-producto">
+        <span>${r.nombre} - ${"⭐".repeat(r.estrellas)}</span>
+        <button class="btn-borrar" onclick="borrarResena('${d.id}')">🗑️</button>
+      </div>`;
+  });
+}
+
+window.agregarResena = async function() {
+  const nombre = document.querySelector("#nombreResena").value;
+  const comentario = document.querySelector("#comentarioResena").value;
+  if (!nombre || !comentario || estrellasSeleccionadas === 0) {
+    alert("Completa tu nombre, estrellas y comentario");
+    return;
+  }
+  await addDoc(collection(db, "resenas"), {
+    nombre, comentario,
+    estrellas: estrellasSeleccionadas,
+    fecha: new Date().toISOString()
+  });
+  document.querySelector("#nombreResena").value = "";
+  document.querySelector("#comentarioResena").value = "";
+  estrellasSeleccionadas = 0;
+  document.querySelectorAll("#estrellasInput span").forEach(s => s.classList.remove("activa"));
+  alert("✅ Reseña publicada");
+  cargarResenas();
+}
+
+window.borrarResena = async function(id) {
+  await deleteDoc(doc(db, "resenas", id));
+  cargarResenasAdmin();
+  alert("🗑️ Reseña borrada");
 }
 
 async function cargarProductos() {
