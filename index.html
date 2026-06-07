@@ -133,12 +133,16 @@
 </div>
 
 <script>
-let contrasena = "Chipi14919066";
+let contrasena = localStorage.getItem("contrasena") || "Chipi14919066";
 
-let productos = [
+let productos = JSON.parse(localStorage.getItem("productos")) || [
   { id: 1, nombre: "iPhone 14", precio: "$3.500.000", foto: "https://i.imgur.com/8mXvBCQ.png", descripcion: "128GB, Nuevo, Sellado" },
   { id: 2, nombre: "Samsung S23", precio: "$2.800.000", foto: "https://i.imgur.com/8mXvBCQ.png", descripcion: "256GB, Nuevo, Sellado" }
 ];
+
+function guardarProductos() {
+  localStorage.setItem("productos", JSON.stringify(productos));
+}
 
 function irA(pantallaId) {
   document.querySelectorAll(".pantalla").forEach(p => p.classList.add("oculto"));
@@ -204,12 +208,14 @@ function agregarProducto() {
   document.querySelector("#precioProducto").value = "";
   document.querySelector("#fotoProducto").value = "";
   document.querySelector("#descProducto").value = "";
+  guardarProductos();
   alert("✅ Producto agregado");
   mostrarAdmin();
 }
 
 function borrarProducto(id) {
   productos = productos.filter(p => p.id !== id);
+  guardarProductos();
   mostrarAdmin();
   alert("🗑️ Producto borrado");
 }
@@ -218,6 +224,7 @@ function cambiarPass() {
   const nueva = document.querySelector("#nuevaPass").value;
   if (!nueva) { alert("Escribe una nueva contraseña"); return; }
   contrasena = nueva;
+  localStorage.setItem("contrasena", nueva);
   document.querySelector("#nuevaPass").value = "";
   alert("✅ Contraseña cambiada");
 }
