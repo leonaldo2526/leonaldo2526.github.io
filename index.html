@@ -3,94 +3,289 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi primera página</title>
+  <title>Leo Mobile</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background-color: #1a1a2e; font-family: Arial; display: flex; justify-content: center; align-items: center;min-height: 100vh; }
-    .pantalla { width: 100%; display: flex; justify-content: center; align-items: center; }
+    body { background: linear-gradient(135deg, #0a0a2e, #1a0a3e); font-family: Arial; min-height: 100vh; color: white; }
+    .pantalla { min-height: 100vh; width: 100%; }
     .oculto { display: none; }
-    .tarjeta { background-color: #16213e; color: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.5); width: 300px; }
-    h1, h2 { margin-bottom: 20px; }
-    p { margin-bottom: 15px; color: #aaaaaa; }
-    input { width: 100%; padding: 12px; margin-bottom: 15px; border: none; border-radius: 25px; background-color: #0f3460; color: white; font-size: 15px; text-align: center; }
-    input::placeholder { color: #aaaaaa; }
-    button { background-color: #e94560; color: white; padding: 12px 30px; border: none; border-radius: 25px; font-size: 16px; cursor: pointer; display: block; width: 100%; margin-bottom: 10px; }
-    button:hover { background-color: #c73652; }
-    .error { color: #e94560; font-size: 14px; margin-top: 10px; }
-    .btn-tema { position: fixed; top: 15px; right: 15px; width: 45px; height: 45px; border-radius: 50%; background-color: #e94560; font-size: 20px; cursor: pointer; border: none; z-index: 999; padding: 0; }
-    body.claro { background-color: #f0f0f0; }
-    body.claro .tarjeta { background-color: #ffffff; color: #1a1a2e; box-shadow: 0 0 30px rgba(0,0,0,0.2); }
-    body.claro input { background-color: #e0e0e0; color: #1a1a2e; }
-    body.claro p { color: #555555; }
-    @keyframes entrar { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .tarjeta { animation: entrar 0.4s ease; }
+    .hero { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; text-align: center; padding: 20px; background: transparent; }
+    .hero h1 { font-size: 42px; margin-bottom: 15px; color: #a78bfa; text-shadow: 0 0 20px rgba(167,139,250,0.5); }
+    .hero p { font-size: 18px; color: #94a3b8; margin-bottom: 30px; }
+    .btn-personalizar { position: fixed; top: 15px; left: 15px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); border: none; font-size: 18px; cursor: pointer; padding: 0; }
+    .cabecera { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: linear-gradient(135deg, #1e1b4b, #2d1b69); position: sticky; top: 0; z-index: 100; }
+    .cabecera h2 { color: #a78bfa; }
+    .productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
+    .producto-card { background: linear-gradient(135deg, #1e1b4b, #2d1b69); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3); animation: entrar 0.3s ease; }
+    .producto-card img { width: 100%; height: 150px; object-fit: cover; }
+    .producto-info { padding: 10px; }
+    .producto-info h3 { font-size: 14px; margin-bottom: 5px; color: #a78bfa; }
+    .producto-info p { font-size: 12px; color: #94a3b8; margin-bottom: 8px; }
+    .producto-precio { font-size: 16px; font-weight: bold; color: #7c3aed; margin-bottom: 8px; }
+    button { background: linear-gradient(135deg, #4c1d95, #7c3aed); color: white; padding: 12px 25px; border: none; border-radius: 25px; font-size: 15px; cursor: pointer; width: 100%; margin-bottom: 10px; }
+    .btn-volver { width: 40px; height: 40px; border-radius: 50%; padding: 0; font-size: 18px; }
+    .btn-admin { width: 40px; height: 40px; border-radius: 50%; padding: 0; font-size: 18px; }
+    .btn-whatsapp { background: linear-gradient(135deg, #15803d, #16a34a); font-size: 13px; padding: 8px; }
+    .btn-secundario { background: transparent; border: 1px solid #7c3aed; color: #a78bfa; }
+    .btn-borrar { background: linear-gradient(135deg, #991b1b, #dc2626); width: auto; padding: 8px 15px; font-size: 13px; }
+    .tarjeta { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 30px; }
+    .tarjeta h2 { margin-bottom: 20px; color: #a78bfa; font-size: 28px; }
+    input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: none; border-radius: 15px; background-color: #1e1b4b; color: white; font-size: 15px; }
+    input[type="color"] { height: 50px; cursor: pointer; }
+    textarea { height: 80px; resize: none; }
+    input::placeholder, textarea::placeholder { color: #94a3b8; }
+    .error { color: #f87171; font-size: 14px; margin-bottom: 10px; }
+    .admin-contenido { padding: 20px; }
+    .admin-contenido h3 { color: #a78bfa; margin-bottom: 15px; margin-top: 20px; }
+    .admin-producto { background: #1e1b4b; border-radius: 10px; padding: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    @keyframes entrar { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
-  <button class="btn-tema" onclick="cambiarTema()">🌙</button>
 
-  <div class="pantalla" id="pantalla1">
-    <div class="tarjeta">
-      <h1>Iniciar sesión 🔐</h1>
-      <input type="text" id="usuario" placeholder="Usuario">
-      <input type="password" id="contrasena" placeholder="Contraseña">
-      <button onclick="login()">Entrar →</button>
-      <p id="error" class="oculto error">❌ Usuario o contraseña incorrectos</p>
-    </div>
+<div class="pantalla" id="inicio">
+  <div class="hero">
+    <button class="btn-personalizar" onclick="irA('loginPersonalizar')">🎨</button>
+    <h1>📱 Leo Mobile</h1>
+    <p>Los mejores teléfonos al mejor precio</p>
+    <button onclick="irA('catalogo')">Ver catálogo →</button>
   </div>
+</div>
 
-  <div class="pantalla oculto" id="pantalla2">
-    <div class="tarjeta">
-      <h2>Menú principal 👋</h2>
-      <button onclick="irA('pantalla3')">👤 Perfil</button>
-      <button onclick="irA('pantalla4')">⚙️ Configuración</button>
-      <button onclick="cerrarSesion()">🚪 Cerrar sesión</button>
-    </div>
+<div class="pantalla oculto" id="catalogo">
+  <div class="cabecera">
+    <button class="btn-volver" onclick="irA('inicio')">←</button>
+    <h2>📱 Catálogo</h2>
+    <button class="btn-admin" onclick="irA('loginAdmin')">⚙️</button>
   </div>
+  <div class="productos" id="listaProductos"></div>
+</div>
 
-  <div class="pantalla oculto" id="pantalla3">
-    <div class="tarjeta">
-      <h2>👤 Perfil</h2>
-      <p>Aquí va tu información personal</p>
-      <button onclick="irA('pantalla2')">← Volver</button>
-    </div>
+<div class="pantalla oculto" id="loginAdmin">
+  <div class="tarjeta">
+    <h2>🔐 Admin</h2>
+    <input type="password" id="passAdmin" placeholder="Contraseña">
+    <button onclick="entrarAdmin()">Entrar →</button>
+    <p id="errorAdmin" class="oculto error">❌ Contraseña incorrecta</p>
+    <button class="btn-secundario" onclick="irA('catalogo')">← Volver</button>
   </div>
+</div>
 
-  <div class="pantalla oculto" id="pantalla4">
-    <div class="tarjeta">
-      <h2>⚙️ Configuración</h2>
-      <p>Aquí van las configuraciones</p>
-      <button onclick="irA('pantalla2')">← Volver</button>
-    </div>
+<div class="pantalla oculto" id="panelAdmin">
+  <div class="cabecera">
+    <button class="btn-volver" onclick="irA('catalogo')">←</button>
+    <h2>⚙️ Panel Admin</h2>
   </div>
+  <div class="admin-contenido">
+    <h3>➕ Agregar producto</h3>
+    <input type="text" id="nombreProducto" placeholder="Nombre del teléfono">
+    <input type="text" id="precioProducto" placeholder="Precio (ej: $1.500.000)">
+    <input type="text" id="fotoProducto" placeholder="URL de la foto">
+    <textarea id="descProducto" placeholder="Descripción"></textarea>
+    <button onclick="agregarProducto()">➕ Agregar producto</button>
+    <h3>🛍️ Fondo de la tienda</h3>
+    <p style="color:#a78bfa">Color:</p>
+    <input type="color" id="colorTienda" value="#0a0a2e">
+    <button onclick="aplicarColorTienda()">Aplicar color</button>
+    <p style="color:#a78bfa">Imagen:</p>
+    <input type="text" id="imagenTienda" placeholder="Pega el link de la imagen">
+    <button onclick="aplicarImagenTienda()">Aplicar imagen</button>
+    <p style="color:#a78bfa">Degradado:</p>
+    <input type="color" id="color1Tienda" value="#0a0a2e">
+    <input type="color" id="color2Tienda" value="#2d1b69">
+    <button onclick="aplicarDegradadoTienda()">Aplicar degradado</button>
+    <button class="btn-secundario" onclick="restaurarTienda()">↩️ Restaurar tienda</button>
+    <h3>🔑 Cambiar contraseña</h3>
+    <input type="password" id="nuevaPass" placeholder="Nueva contraseña">
+    <button onclick="cambiarPass()">🔑 Cambiar</button>
+    <div id="listaAdmin"></div>
+  </div>
+</div>
 
-  <script>
-    function irA(pantallaId) {
-      document.querySelectorAll(".pantalla").forEach(p => p.classList.add("oculto"));
-      document.querySelector("#" + pantallaId).classList.remove("oculto");
-    }
-    function login() {
-      const usuario = document.querySelector("#usuario").value;
-      const contrasena = document.querySelector("#contrasena").value;
-      const error = document.querySelector("#error");
-      if (usuario === "admin" && contrasena === "1234") {
-        error.classList.add("oculto");
-        irA("pantalla2");
-      } else {
-        error.classList.remove("oculto");
-      }
-    }
-    function cerrarSesion() {
-      document.querySelector("#usuario").value = "";
-      document.querySelector("#contrasena").value = "";
-      irA("pantalla1");
-    }
-    function cambiarTema() {
-      const body = document.querySelector("body");
-      const btn = document.querySelector(".btn-tema");
-      body.classList.toggle("claro");
-      btn.textContent = body.classList.contains("claro") ? "☀️" : "🌙";
-    }
-  </script>
+<div class="pantalla oculto" id="loginPersonalizar">
+  <div class="tarjeta">
+    <h2>🎨 Personalizar inicio</h2>
+    <input type="password" id="passPersonalizar" placeholder="Contraseña">
+    <button onclick="entrarPersonalizar()">Entrar →</button>
+    <p id="errorPersonalizar" class="oculto error">❌ Contraseña incorrecta</p>
+    <button class="btn-secundario" onclick="irA('inicio')">← Volver</button>
+  </div>
+</div>
+
+<div class="pantalla oculto" id="panelPersonalizar">
+  <div class="cabecera">
+    <button class="btn-volver" onclick="irA('inicio')">←</button>
+    <h2>🎨 Personalizar inicio</h2>
+  </div>
+  <div class="admin-contenido">
+    <h3>Color de fondo</h3>
+    <input type="color" id="colorInicio" value="#0a0a2e">
+    <button onclick="aplicarColorInicio()">Aplicar color</button>
+    <h3>Imagen de fondo</h3>
+    <input type="text" id="imagenInicio" placeholder="Pega el link de la imagen">
+    <button onclick="aplicarImagenInicio()">Aplicar imagen</button>
+    <h3>Degradado</h3>
+    <input type="color" id="color1Inicio" value="#0a0a2e">
+    <input type="color" id="color2Inicio" value="#2d1b69">
+    <button onclick="aplicarDegradadoInicio()">Aplicar degradado</button>
+    <button class="btn-secundario" onclick="restaurarInicio()">↩️ Restaurar original</button>
+  </div>
+</div>
+
+<script>
+let contrasena = "Chipi14919066";
+
+let productos = [
+  { id: 1, nombre: "iPhone 14", precio: "$3.500.000", foto: "https://i.imgur.com/8mXvBCQ.png", descripcion: "128GB, Nuevo, Sellado" },
+  { id: 2, nombre: "Samsung S23", precio: "$2.800.000", foto: "https://i.imgur.com/8mXvBCQ.png", descripcion: "256GB, Nuevo, Sellado" }
+];
+
+function irA(pantallaId) {
+  document.querySelectorAll(".pantalla").forEach(p => p.classList.add("oculto"));
+  document.querySelector("#" + pantallaId).classList.remove("oculto");
+  if (pantallaId === "catalogo") mostrarProductos();
+  if (pantallaId === "panelAdmin") mostrarAdmin();
+}
+
+function mostrarProductos() {
+  const lista = document.querySelector("#listaProductos");
+  lista.innerHTML = "";
+  productos.forEach(p => {
+    lista.innerHTML += `
+      <div class="producto-card">
+        <img src="${p.foto}" onerror="this.src='https://via.placeholder.com/150'">
+        <div class="producto-info">
+          <h3>${p.nombre}</h3>
+          <p>${p.descripcion}</p>
+          <div class="producto-precio">${p.precio}</div>
+          <button class="btn-whatsapp" onclick="comprar('${p.nombre}', '${p.precio}')">🟢 Pedir por WhatsApp</button>
+        </div>
+      </div>`;
+  });
+}
+
+function comprar(nombre, precio) {
+  const mensaje = `Hola! Estoy interesado en: ${nombre} - ${precio}`;
+  window.open(`https://wa.me/573107681757?text=${encodeURIComponent(mensaje)}`);
+}
+
+function entrarAdmin() {
+  const pass = document.querySelector("#passAdmin").value;
+  const error = document.querySelector("#errorAdmin");
+  if (pass === contrasena) {
+    error.classList.add("oculto");
+    document.querySelector("#passAdmin").value = "";
+    irA("panelAdmin");
+  } else {
+    error.classList.remove("oculto");
+  }
+}
+
+function mostrarAdmin() {
+  const lista = document.querySelector("#listaAdmin");
+  lista.innerHTML = "<h3>Tus productos</h3>";
+  productos.forEach(p => {
+    lista.innerHTML += `
+      <div class="admin-producto">
+        <span>${p.nombre} - ${p.precio}</span>
+        <button class="btn-borrar" onclick="borrarProducto(${p.id})">🗑️</button>
+      </div>`;
+  });
+}
+
+function agregarProducto() {
+  const nombre = document.querySelector("#nombreProducto").value;
+  const precio = document.querySelector("#precioProducto").value;
+  const foto = document.querySelector("#fotoProducto").value;
+  const desc = document.querySelector("#descProducto").value;
+  if (!nombre || !precio) { alert("Pon al menos el nombre y el precio"); return; }
+  productos.push({ id: Date.now(), nombre, precio, foto: foto || "https://via.placeholder.com/150", descripcion: desc });
+  document.querySelector("#nombreProducto").value = "";
+  document.querySelector("#precioProducto").value = "";
+  document.querySelector("#fotoProducto").value = "";
+  document.querySelector("#descProducto").value = "";
+  alert("✅ Producto agregado");
+  mostrarAdmin();
+}
+
+function borrarProducto(id) {
+  productos = productos.filter(p => p.id !== id);
+  mostrarAdmin();
+  alert("🗑️ Producto borrado");
+}
+
+function cambiarPass() {
+  const nueva = document.querySelector("#nuevaPass").value;
+  if (!nueva) { alert("Escribe una nueva contraseña"); return; }
+  contrasena = nueva;
+  document.querySelector("#nuevaPass").value = "";
+  alert("✅ Contraseña cambiada");
+}
+
+function entrarPersonalizar() {
+  const pass = document.querySelector("#passPersonalizar").value;
+  const error = document.querySelector("#errorPersonalizar");
+  if (pass === contrasena) {
+    error.classList.add("oculto");
+    document.querySelector("#passPersonalizar").value = "";
+    irA("panelPersonalizar");
+  } else {
+    error.classList.remove("oculto");
+  }
+}
+
+function aplicarColorInicio() {
+  const color = document.querySelector("#colorInicio").value;
+  document.body.style.background = color;
+  document.querySelector(".hero").style.background = color;
+}
+
+function aplicarImagenInicio() {
+  const url = document.querySelector("#imagenInicio").value;
+  if (!url) { alert("Pega un link de imagen"); return; }
+  const bg = `url('${url}') center/cover no-repeat`;
+  document.body.style.background = bg;
+  document.querySelector(".hero").style.background = bg;
+}
+
+function aplicarDegradadoInicio() {
+  const color1 = document.querySelector("#color1Inicio").value;
+  const color2 = document.querySelector("#color2Inicio").value;
+  const degradado = `linear-gradient(135deg, ${color1}, ${color2})`;
+  document.body.style.background = degradado;
+  document.querySelector(".hero").style.background = degradado;
+}
+
+function restaurarInicio() {
+  const original = "linear-gradient(135deg, #0a0a2e, #1a0a3e)";
+  document.body.style.background = original;
+  document.querySelector(".hero").style.background = original;
+}
+
+function aplicarColorTienda() {
+  const color = document.querySelector("#colorTienda").value;
+  document.body.style.background = color;
+  document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = color);
+}
+
+function aplicarImagenTienda() {
+  const url = document.querySelector("#imagenTienda").value;
+  if (!url) { alert("Pega un link de imagen"); return; }
+  const bg = `url('${url}') center/cover no-repeat`;
+  document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = bg);
+}
+
+function aplicarDegradadoTienda() {
+  const color1 = document.querySelector("#color1Tienda").value;
+  const color2 = document.querySelector("#color2Tienda").value;
+  const degradado = `linear-gradient(135deg, ${color1}, ${color2})`;
+  document.body.style.background = degradado;
+  document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = degradado);
+}
+
+function restaurarTienda() {
+  document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = "");
+}
+</script>
 </body>
 </html>
