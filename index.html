@@ -38,6 +38,7 @@
     .admin-contenido { padding: 20px; }
     .admin-contenido h3 { color: #a78bfa; margin-bottom: 15px; margin-top: 20px; }
     .admin-producto { background: #1e1b4b; border-radius: 10px; padding: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .cargando { text-align: center; padding: 40px; color: #a78bfa; font-size: 18px; }
     @keyframes entrar { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
@@ -58,7 +59,9 @@
     <h2>📱 Catálogo</h2>
     <button class="btn-admin" onclick="irA('loginAdmin')">⚙️</button>
   </div>
-  <div class="productos" id="listaProductos"></div>
+  <div class="productos" id="listaProductos">
+    <div class="cargando">⏳ Cargando productos...</div>
+  </div>
 </div>
 
 <div class="pantalla oculto" id="loginAdmin">
@@ -132,26 +135,43 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAlRNjt2YANwUD-8iix4cixu7p0ug-EVWQ",
+  authDomain: "leo-mobile-c1cc6.firebaseapp.com",
+  projectId: "leo-mobile-c1cc6",
+  storageBucket: "leo-mobile-c1cc6.firebasestorage.app",
+  messagingSenderId: "691343954809",
+  appId: "1:691343954809:web:d0499933d2d0984fb7d5a8",
+  measurementId: "G-V801T7WCNJ"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 let contrasena = localStorage.getItem("contrasena") || "Chipi14919066";
 
-
-let productos = JSON.parse(localStorage.getItem("productos")) || [];
-function guardarProductos() {
-  localStorage.setItem("productos", JSON.stringify(productos));
-}
-
-function irA(pantallaId) {
+window.irA = function(pantallaId) {
   document.querySelectorAll(".pantalla").forEach(p => p.classList.add("oculto"));
   document.querySelector("#" + pantallaId).classList.remove("oculto");
-  if (pantallaId === "catalogo") mostrarProductos();
-  if (pantallaId === "panelAdmin") mostrarAdmin();
+  if (pantallaId === "catalogo") cargarProductos();
+  if (pantallaId === "panelAdmin") cargarAdmin();
 }
 
-function mostrarProductos() {
+async function cargarProductos() {
   const lista = document.querySelector("#listaProductos");
+  lista.innerHTML = "<div class='cargando'>⏳ Cargando productos...</div>";
+  const snapshot = await getDocs(collection(db, "productos"));
   lista.innerHTML = "";
-  productos.forEach(p => {
+  if (snapshot.empty) {
+    lista.innerHTML = "<div class='cargando'>📭 No hay productos aún</div>";
+    return;
+  }
+  snapshot.forEach(d => {
+    const p = d.data();
     lista.innerHTML += `
       <div class="producto-card">
         <img src="${p.foto}" onerror="this.src='https://via.placeholder.com/150'">
@@ -165,59 +185,63 @@ function mostrarProductos() {
   });
 }
 
-function comprar(nombre, precio) {
+async function cargarAdmin() {
+  const lista = document.querySelector("#listaAdmin");
+  lista.innerHTML = "<h3>Tus productos</h3>";
+  const snapshot = await getDocs(collection(db, "productos"));
+  snapshot.forEach(d => {
+    const p = d.data();
+    lista.innerHTML += `
+      <div class="admin-producto">
+        <span>${p.nombre} - ${p.precio}</span>
+        <button class="btn-borrar" onclick="borrarProducto('${d.id}')">🗑️</button>
+      </div>`;
+  });
+}
+
+window.comprar = function(nombre, precio) {
   const mensaje = `Hola! Estoy interesado en: ${nombre} - ${precio}`;
   window.open(`https://wa.me/573107681757?text=${encodeURIComponent(mensaje)}`);
 }
 
-function entrarAdmin() {
+window.entrarAdmin = function() {
   const pass = document.querySelector("#passAdmin").value;
   const error = document.querySelector("#errorAdmin");
   if (pass === contrasena) {
     error.classList.add("oculto");
     document.querySelector("#passAdmin").value = "";
-    irA("panelAdmin");
+    window.irA("panelAdmin");
   } else {
     error.classList.remove("oculto");
   }
 }
 
-function mostrarAdmin() {
-  const lista = document.querySelector("#listaAdmin");
-  lista.innerHTML = "<h3>Tus productos</h3>";
-  productos.forEach(p => {
-    lista.innerHTML += `
-      <div class="admin-producto">
-        <span>${p.nombre} - ${p.precio}</span>
-        <button class="btn-borrar" onclick="borrarProducto(${p.id})">🗑️</button>
-      </div>`;
-  });
-}
-
-function agregarProducto() {
+window.agregarProducto = async function() {
   const nombre = document.querySelector("#nombreProducto").value;
   const precio = document.querySelector("#precioProducto").value;
   const foto = document.querySelector("#fotoProducto").value;
   const desc = document.querySelector("#descProducto").value;
   if (!nombre || !precio) { alert("Pon al menos el nombre y el precio"); return; }
-  productos.push({ id: Date.now(), nombre, precio, foto: foto || "https://via.placeholder.com/150", descripcion: desc });
+  await addDoc(collection(db, "productos"), {
+    nombre, precio,
+    foto: foto || "https://via.placeholder.com/150",
+    descripcion: desc
+  });
   document.querySelector("#nombreProducto").value = "";
   document.querySelector("#precioProducto").value = "";
   document.querySelector("#fotoProducto").value = "";
   document.querySelector("#descProducto").value = "";
-  guardarProductos();
   alert("✅ Producto agregado");
-  mostrarAdmin();
+  cargarAdmin();
 }
 
-function borrarProducto(id) {
-  productos = productos.filter(p => p.id !== id);
-  guardarProductos();
-  mostrarAdmin();
+window.borrarProducto = async function(id) {
+  await deleteDoc(doc(db, "productos", id));
+  cargarAdmin();
   alert("🗑️ Producto borrado");
 }
 
-function cambiarPass() {
+window.cambiarPass = function() {
   const nueva = document.querySelector("#nuevaPass").value;
   if (!nueva) { alert("Escribe una nueva contraseña"); return; }
   contrasena = nueva;
@@ -226,25 +250,25 @@ function cambiarPass() {
   alert("✅ Contraseña cambiada");
 }
 
-function entrarPersonalizar() {
+window.entrarPersonalizar = function() {
   const pass = document.querySelector("#passPersonalizar").value;
   const error = document.querySelector("#errorPersonalizar");
   if (pass === contrasena) {
     error.classList.add("oculto");
     document.querySelector("#passPersonalizar").value = "";
-    irA("panelPersonalizar");
+    window.irA("panelPersonalizar");
   } else {
     error.classList.remove("oculto");
   }
 }
 
-function aplicarColorInicio() {
+window.aplicarColorInicio = function() {
   const color = document.querySelector("#colorInicio").value;
   document.body.style.background = color;
   document.querySelector(".hero").style.background = color;
 }
 
-function aplicarImagenInicio() {
+window.aplicarImagenInicio = function() {
   const url = document.querySelector("#imagenInicio").value;
   if (!url) { alert("Pega un link de imagen"); return; }
   const bg = `url('${url}') center/cover no-repeat`;
@@ -252,7 +276,7 @@ function aplicarImagenInicio() {
   document.querySelector(".hero").style.background = bg;
 }
 
-function aplicarDegradadoInicio() {
+window.aplicarDegradadoInicio = function() {
   const color1 = document.querySelector("#color1Inicio").value;
   const color2 = document.querySelector("#color2Inicio").value;
   const degradado = `linear-gradient(135deg, ${color1}, ${color2})`;
@@ -260,34 +284,32 @@ function aplicarDegradadoInicio() {
   document.querySelector(".hero").style.background = degradado;
 }
 
-function restaurarInicio() {
+window.restaurarInicio = function() {
   const original = "linear-gradient(135deg, #0a0a2e, #1a0a3e)";
   document.body.style.background = original;
   document.querySelector(".hero").style.background = original;
 }
 
-function aplicarColorTienda() {
+window.aplicarColorTienda = function() {
   const color = document.querySelector("#colorTienda").value;
-  document.body.style.background = color;
   document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = color);
 }
 
-function aplicarImagenTienda() {
+window.aplicarImagenTienda = function() {
   const url = document.querySelector("#imagenTienda").value;
   if (!url) { alert("Pega un link de imagen"); return; }
   const bg = `url('${url}') center/cover no-repeat`;
   document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = bg);
 }
 
-function aplicarDegradadoTienda() {
+window.aplicarDegradadoTienda = function() {
   const color1 = document.querySelector("#color1Tienda").value;
   const color2 = document.querySelector("#color2Tienda").value;
   const degradado = `linear-gradient(135deg, ${color1}, ${color2})`;
-  document.body.style.background = degradado;
   document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = degradado);
 }
 
-function restaurarTienda() {
+window.restaurarTienda = function() {
   document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = "");
 }
 </script>
