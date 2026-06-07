@@ -17,17 +17,25 @@
     .pantalla { min-height: 100vh; width: 100%; }
     .oculto { display: none; }
     .hero { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; text-align: center; padding: 20px; background: url('https://i.imgur.com/eFKJKmv.png') center/cover no-repeat; }
-    ..hero h1 { font-size: 52px; margin-bottom: 15px; color: #ffffff; text-shadow: 0 0 25px rgba(255,255,255,0.8); font-weight: bold; letter-spacing: 2px; }
-    .hero p { font-size: 18px; color: #94a3b8; margin-bottom: 30px; }
+    .hero h1 { font-size: 52px; margin-bottom: 15px; color: #ffffff; text-shadow: 0 0 25px rgba(255,255,255,0.8); font-weight: bold; letter-spacing: 2px; }
+    .hero p { font-size: 18px; color: #ffffff; margin-bottom: 30px; text-shadow: 0 0 10px rgba(0,0,0,0.8); }
     .btn-personalizar { position: fixed; top: 15px; left: 15px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); border: none; font-size: 18px; cursor: pointer; padding: 0; }
     .cabecera { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: linear-gradient(135deg, #1e1b4b, #2d1b69); position: sticky; top: 0; z-index: 100; }
     .cabecera h2 { color: #a78bfa; }
     .productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
-    .producto-card { background: linear-gradient(135deg, #1e1b4b, #2d1b69); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3); animation: entrar 0.3s ease; }
-    .producto-card img { width: 100%; height: 150px; object-fit: cover; }
+    .producto-card { background: #ffffff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.2); animation: entrar 0.3s ease; cursor: pointer; }
+    .carrusel { position: relative; width: 100%; height: 150px; overflow: hidden; }
+    .carrusel img { width: 100%; height: 150px; object-fit: cover; display: none; }
+    .carrusel img.activa { display: block; }
+    .carrusel-dots { position: absolute; bottom: 5px; width: 100%; display: flex; justify-content: center; gap: 4px; }
+    .carrusel-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; }
+    .carrusel-dots span.activa { background: white; }
+    .carrusel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.4); border: none; color: white; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; padding: 0; width: 25px; margin: 0; }
+    .carrusel-btn.izq { left: 5px; }
+    .carrusel-btn.der { right: 5px; }
     .producto-info { padding: 10px; }
-    .producto-info h3 { font-size: 14px; margin-bottom: 5px; color: #a78bfa; }
-    .producto-info p { font-size: 12px; color: #94a3b8; margin-bottom: 8px; }
+    .producto-info h3 { font-size: 14px; margin-bottom: 5px; color: #1a1a2e; font-weight: bold; }
+    .producto-info p { font-size: 12px; color: #555555; margin-bottom: 8px; }
     .producto-precio { font-size: 16px; font-weight: bold; color: #7c3aed; margin-bottom: 8px; }
     button { background: linear-gradient(135deg, #4c1d95, #7c3aed); color: white; padding: 12px 25px; border: none; border-radius: 25px; font-size: 15px; cursor: pointer; width: 100%; margin-bottom: 10px; }
     .btn-volver { width: 40px; height: 40px; border-radius: 50%; padding: 0; font-size: 18px; }
@@ -53,10 +61,29 @@
     .resena-card h4 { color: #a78bfa; margin-bottom: 5px; }
     .resena-card p { color: #94a3b8; font-size: 14px; margin-top: 5px; }
     .resena-estrellas { font-size: 18px; margin-bottom: 5px; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; justify-content: center; align-items: center; flex-direction: column; }
+    .modal.activo { display: flex; }
+    .modal img { max-width: 90%; max-height: 70vh; border-radius: 10px; object-fit: contain; }
+    .modal-dots { display: flex; gap: 8px; margin-top: 15px; }
+    .modal-dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; }
+    .modal-dots span.activa { background: white; }
+    .modal-cerrar { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; cursor: pointer; padding: 0; width: 40px; margin: 0; }
+    .modal-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; cursor: pointer; padding: 0; margin: 10px; width: 40px; }
+    .modal-nav { display: flex; align-items: center; margin-top: 10px; }
     @keyframes entrar { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
+
+<div class="modal" id="modal">
+  <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
+  <img id="modalImg" src="">
+  <div class="modal-nav">
+    <button class="modal-btn" onclick="modalNav(-1)">←</button>
+    <div class="modal-dots" id="modalDots"></div>
+    <button class="modal-btn" onclick="modalNav(1)">→</button>
+  </div>
+</div>
 
 <div class="pantalla" id="inicio">
   <div class="hero">
@@ -120,7 +147,10 @@
     <h3>➕ Agregar producto</h3>
     <input type="text" id="nombreProducto" placeholder="Nombre del teléfono">
     <input type="text" id="precioProducto" placeholder="Precio (ej: $1.500.000)">
-    <input type="text" id="fotoProducto" placeholder="URL de la foto">
+    <input type="text" id="foto1Producto" placeholder="URL foto 1 (principal)">
+    <input type="text" id="foto2Producto" placeholder="URL foto 2 (opcional)">
+    <input type="text" id="foto3Producto" placeholder="URL foto 3 (opcional)">
+    <input type="text" id="foto4Producto" placeholder="URL foto 4 (opcional)">
     <textarea id="descProducto" placeholder="Descripción"></textarea>
     <button onclick="agregarProducto()">➕ Agregar producto</button>
     <h3>🗑️ Gestionar reseñas</h3>
@@ -193,6 +223,8 @@ const db = getFirestore(app);
 
 let contrasena = localStorage.getItem("contrasena") || "Chipi14919066";
 let estrellasSeleccionadas = 0;
+let modalFotos = [];
+let modalIndex = 0;
 
 window.irA = function(pantallaId) {
   document.querySelectorAll(".pantalla").forEach(p => p.classList.add("oculto"));
@@ -202,10 +234,106 @@ window.irA = function(pantallaId) {
   if (pantallaId === "resenas") cargarResenas();
 }
 
+window.abrirModal = function(fotos, index) {
+  modalFotos = fotos;
+  modalIndex = index;
+  actualizarModal();
+  document.querySelector("#modal").classList.add("activo");
+}
+
+window.cerrarModal = function() {
+  document.querySelector("#modal").classList.remove("activo");
+}
+
+window.modalNav = function(dir) {
+  modalIndex = (modalIndex + dir + modalFotos.length) % modalFotos.length;
+  actualizarModal();
+}
+
+function actualizarModal() {
+  document.querySelector("#modalImg").src = modalFotos[modalIndex];
+  const dots = document.querySelector("#modalDots");
+  dots.innerHTML = "";
+  modalFotos.forEach((_, i) => {
+    dots.innerHTML += `<span class="${i === modalIndex ? 'activa' : ''}" onclick="window.abrirModal(modalFotos, ${i})"></span>`;
+  });
+}
+
 window.selEstrellas = function(n) {
   estrellasSeleccionadas = n;
   document.querySelectorAll("#estrellasInput span").forEach((s, i) => {
     s.classList.toggle("activa", i < n);
+  });
+}
+
+async function cargarProductos() {
+  const lista = document.querySelector("#listaProductos");
+  lista.innerHTML = "<div class='cargando'>⏳ Cargando productos...</div>";
+  const snapshot = await getDocs(collection(db, "productos"));
+  lista.innerHTML = "";
+  if (snapshot.empty) {
+    lista.innerHTML = "<div class='cargando'>📭 No hay productos aún</div>";
+    return;
+  }
+  snapshot.forEach(d => {
+    const p = d.data();
+    const fotos = [p.foto1, p.foto2, p.foto3, p.foto4].filter(f => f && f.trim() !== "");
+    if (fotos.length === 0) fotos.push("https://via.placeholder.com/150");
+    const fotosJson = JSON.stringify(fotos).replace(/"/g, '&quot;');
+    let imgs = fotos.map((f, i) => `<img src="${f}" class="${i === 0 ? 'activa' : ''}" onerror="this.src='https://via.placeholder.com/150'">`).join("");
+    let dots = fotos.length > 1 ? `<div class="carrusel-dots">${fotos.map((_, i) => `<span class="${i === 0 ? 'activa' : ''}" onclick="cambiarFoto(this, ${i})"></span>`).join("")}</div>` : "";
+    let btns = fotos.length > 1 ? `<button class="carrusel-btn izq" onclick="moverCarrusel(this, -1)">‹</button><button class="carrusel-btn der" onclick="moverCarrusel(this, 1)">›</button>` : "";
+    lista.innerHTML += `
+      <div class="producto-card">
+        <div class="carrusel" onclick="window.abrirModal(${fotosJson}, 0)">
+          ${imgs}${dots}${btns}
+        </div>
+        <div class="producto-info">
+          <h3>${p.nombre}</h3>
+          <p>${p.descripcion}</p>
+          <div class="producto-precio">${p.precio}</div>
+          <button class="btn-whatsapp" onclick="comprar('${p.nombre}', '${p.precio}')">🟢 Pedir por WhatsApp</button>
+        </div>
+      </div>`;
+  });
+}
+
+window.moverCarrusel = function(btn, dir) {
+  event.stopPropagation();
+  const carrusel = btn.closest(".carrusel");
+  const imgs = carrusel.querySelectorAll("img");
+  const dots = carrusel.querySelectorAll(".carrusel-dots span");
+  let actual = 0;
+  imgs.forEach((img, i) => { if (img.classList.contains("activa")) actual = i; });
+  imgs[actual].classList.remove("activa");
+  if (dots.length) dots[actual].classList.remove("activa");
+  actual = (actual + dir + imgs.length) % imgs.length;
+  imgs[actual].classList.add("activa");
+  if (dots.length) dots[actual].classList.add("activa");
+}
+
+window.cambiarFoto = function(dot, index) {
+  event.stopPropagation();
+  const carrusel = dot.closest(".carrusel");
+  const imgs = carrusel.querySelectorAll("img");
+  const dots = carrusel.querySelectorAll(".carrusel-dots span");
+  imgs.forEach(img => img.classList.remove("activa"));
+  dots.forEach(d => d.classList.remove("activa"));
+  imgs[index].classList.add("activa");
+  dots[index].classList.add("activa");
+}
+
+async function cargarAdmin() {
+  const lista = document.querySelector("#listaAdmin");
+  lista.innerHTML = "<h3>Tus productos</h3>";
+  const snapshot = await getDocs(collection(db, "productos"));
+  snapshot.forEach(d => {
+    const p = d.data();
+    lista.innerHTML += `
+      <div class="admin-producto">
+        <span>${p.nombre} - ${p.precio}</span>
+        <button class="btn-borrar" onclick="borrarProducto('${d.id}')">🗑️</button>
+      </div>`;
   });
 }
 
@@ -220,12 +348,10 @@ async function cargarResenas() {
   }
   snapshot.forEach(d => {
     const r = d.data();
-    let estrellas = "";
-    for(let i = 0; i < r.estrellas; i++) estrellas += "⭐";
     lista.innerHTML += `
       <div class="resena-card">
         <h4>${r.nombre}</h4>
-        <div class="resena-estrellas">${estrellas}</div>
+        <div class="resena-estrellas">${"⭐".repeat(r.estrellas)}</div>
         <p>${r.comentario}</p>
       </div>`;
   });
@@ -245,70 +371,6 @@ async function cargarResenasAdmin() {
       <div class="admin-producto">
         <span>${r.nombre} - ${"⭐".repeat(r.estrellas)}</span>
         <button class="btn-borrar" onclick="borrarResena('${d.id}')">🗑️</button>
-      </div>`;
-  });
-}
-
-window.agregarResena = async function() {
-  const nombre = document.querySelector("#nombreResena").value;
-  const comentario = document.querySelector("#comentarioResena").value;
-  if (!nombre || !comentario || estrellasSeleccionadas === 0) {
-    alert("Completa tu nombre, estrellas y comentario");
-    return;
-  }
-  await addDoc(collection(db, "resenas"), {
-    nombre, comentario,
-    estrellas: estrellasSeleccionadas,
-    fecha: new Date().toISOString()
-  });
-  document.querySelector("#nombreResena").value = "";
-  document.querySelector("#comentarioResena").value = "";
-  estrellasSeleccionadas = 0;
-  document.querySelectorAll("#estrellasInput span").forEach(s => s.classList.remove("activa"));
-  alert("✅ Reseña publicada");
-  cargarResenas();
-}
-
-window.borrarResena = async function(id) {
-  await deleteDoc(doc(db, "resenas", id));
-  cargarResenasAdmin();
-  alert("🗑️ Reseña borrada");
-}
-
-async function cargarProductos() {
-  const lista = document.querySelector("#listaProductos");
-  lista.innerHTML = "<div class='cargando'>⏳ Cargando productos...</div>";
-  const snapshot = await getDocs(collection(db, "productos"));
-  lista.innerHTML = "";
-  if (snapshot.empty) {
-    lista.innerHTML = "<div class='cargando'>📭 No hay productos aún</div>";
-    return;
-  }
-  snapshot.forEach(d => {
-    const p = d.data();
-    lista.innerHTML += `
-      <div class="producto-card">
-        <img src="${p.foto}" onerror="this.src='https://via.placeholder.com/150'">
-        <div class="producto-info">
-          <h3>${p.nombre}</h3>
-          <p>${p.descripcion}</p>
-          <div class="producto-precio">${p.precio}</div>
-          <button class="btn-whatsapp" onclick="comprar('${p.nombre}', '${p.precio}')">🟢 Pedir por WhatsApp</button>
-        </div>
-      </div>`;
-  });
-}
-
-async function cargarAdmin() {
-  const lista = document.querySelector("#listaAdmin");
-  lista.innerHTML = "<h3>Tus productos</h3>";
-  const snapshot = await getDocs(collection(db, "productos"));
-  snapshot.forEach(d => {
-    const p = d.data();
-    lista.innerHTML += `
-      <div class="admin-producto">
-        <span>${p.nombre} - ${p.precio}</span>
-        <button class="btn-borrar" onclick="borrarProducto('${d.id}')">🗑️</button>
       </div>`;
   });
 }
@@ -333,17 +395,19 @@ window.entrarAdmin = function() {
 window.agregarProducto = async function() {
   const nombre = document.querySelector("#nombreProducto").value;
   const precio = document.querySelector("#precioProducto").value;
-  const foto = document.querySelector("#fotoProducto").value;
+  const foto1 = document.querySelector("#foto1Producto").value;
+  const foto2 = document.querySelector("#foto2Producto").value;
+  const foto3 = document.querySelector("#foto3Producto").value;
+  const foto4 = document.querySelector("#foto4Producto").value;
   const desc = document.querySelector("#descProducto").value;
-  if (!nombre || !precio) { alert("Pon al menos el nombre y el precio"); return; }
-  await addDoc(collection(db, "productos"), {
-    nombre, precio,
-    foto: foto || "https://via.placeholder.com/150",
-    descripcion: desc
-  });
+  if (!nombre || !precio || !foto1) { alert("Pon al menos el nombre, precio y foto principal"); return; }
+  await addDoc(collection(db, "productos"), { nombre, precio, foto1, foto2, foto3, foto4, descripcion: desc });
   document.querySelector("#nombreProducto").value = "";
   document.querySelector("#precioProducto").value = "";
-  document.querySelector("#fotoProducto").value = "";
+  document.querySelector("#foto1Producto").value = "";
+  document.querySelector("#foto2Producto").value = "";
+  document.querySelector("#foto3Producto").value = "";
+  document.querySelector("#foto4Producto").value = "";
   document.querySelector("#descProducto").value = "";
   alert("✅ Producto agregado");
   cargarAdmin();
@@ -353,6 +417,28 @@ window.borrarProducto = async function(id) {
   await deleteDoc(doc(db, "productos", id));
   cargarAdmin();
   alert("🗑️ Producto borrado");
+}
+
+window.agregarResena = async function() {
+  const nombre = document.querySelector("#nombreResena").value;
+  const comentario = document.querySelector("#comentarioResena").value;
+  if (!nombre || !comentario || estrellasSeleccionadas === 0) {
+    alert("Completa tu nombre, estrellas y comentario");
+    return;
+  }
+  await addDoc(collection(db, "resenas"), { nombre, comentario, estrellas: estrellasSeleccionadas, fecha: new Date().toISOString() });
+  document.querySelector("#nombreResena").value = "";
+  document.querySelector("#comentarioResena").value = "";
+  estrellasSeleccionadas = 0;
+  document.querySelectorAll("#estrellasInput span").forEach(s => s.classList.remove("activa"));
+  alert("✅ Reseña publicada");
+  cargarResenas();
+}
+
+window.borrarResena = async function(id) {
+  await deleteDoc(doc(db, "resenas", id));
+  cargarResenasAdmin();
+  alert("🗑️ Reseña borrada");
 }
 
 window.cambiarPass = function() {
