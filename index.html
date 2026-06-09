@@ -428,7 +428,7 @@ window.borrarResena = async function(id) {
 async function cargarAdmin() {
   const lista = document.querySelector("#listaAdmin");
   lista.innerHTML = "";
-  const snapshot = await getDocs(query(collection(db, "productos"), orderBy("fecha", "desc")));
+  const snapshot = await getDocs(collection(db, "productos"));
   if (snapshot.empty) { lista.innerHTML = "<div class='cargando'>📭 No hay productos</div>"; return; }
   snapshot.forEach(d => {
     const p = d.data();
