@@ -278,7 +278,7 @@ window.irA = function(pantallaId) {
 async function cargarProductos() {
   const grid = document.querySelector("#gridProductos");
   grid.innerHTML = "<div class='cargando' style='grid-column:span 2'>⏳ Cargando productos...</div>";
-  const snapshot = await getDocs(query(collection(db, "productos"), orderBy("fecha", "desc")));
+  const snapshot = await getDocs(collection(db, "productos"));
   todosProductos = [];
   snapshot.forEach(d => todosProductos.push({ id: d.id, ...d.data() }));
   mostrarProductos(todosProductos);
@@ -377,7 +377,7 @@ window.selEstrellas = function(n) {
 async function cargarResenas() {
   const lista = document.querySelector("#listaResenas");
   lista.innerHTML = "<div class='cargando'>⏳ Cargando reseñas...</div>";
-  const snapshot = await getDocs(query(collection(db, "resenas"), orderBy("fecha", "desc")));
+  const snapshot = await getDocs(collection(db, "productos"));
   lista.innerHTML = "";
   if (snapshot.empty) { lista.innerHTML = "<div class='cargando'>📭 Aún no hay reseñas</div>"; return; }
   snapshot.forEach(d => {
