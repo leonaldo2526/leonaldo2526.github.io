@@ -4,209 +4,243 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leo Mobile</title>
-  <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#7c3aed">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Leo Mobile">
-<link rel="apple-touch-icon" href="https://i.imgur.com/l3TsWwI.png">
   <meta property="og:title" content="Leo Mobile">
   <meta property="og:description" content="Los mejores teléfonos al mejor precio">
-  <meta property="og:image" content="https://drive.google.com/uc?export=view&id=1xhr2ssidY2JyV53F8e3Pt42SuJqSUOa-">
+  <meta property="og:image" content="https://drive.google.com/uc?export=view&id=1j-lV4UexdhiuxukLEj7sANjGsPLcOvIe">
   <meta property="og:url" content="https://leonaldo2526.github.io">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://drive.google.com/uc?export=view&id=1xhr2ssidY2JyV53F8e3Pt42SuJqSUOa-">
+  <meta name="twitter:image" content="https://drive.google.com/uc?export=view&id=1j-lV4UexdhiuxukLEj7sANjGsPLcOvIe">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: linear-gradient(135deg, #0a0a2e, #1a0a3e); font-family: Arial; min-height: 100vh; color: white; }
+    body { background: #f0f2f5; font-family: Arial; min-height: 100vh; color: #1c1e21; }
     .pantalla { min-height: 100vh; width: 100%; }
     .oculto { display: none; }
-    .hero { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; text-align: center; padding: 20px; background: url('https://i.imgur.com/eFKJKmv.png') center/cover no-repeat; }
-    .hero h1 { font-size: 52px; margin-bottom: 15px; color: #ffffff; text-shadow: 0 0 25px rgba(255,255,255,0.8); font-weight: bold; letter-spacing: 2px; }
-    .hero p { font-size: 18px; color: #ffffff; margin-bottom: 30px; text-shadow: 0 0 10px rgba(0,0,0,0.8); }
-    .btn-personalizar { position: fixed; top: 15px; left: 15px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); border: none; font-size: 18px; cursor: pointer; padding: 0; }
-    .cabecera { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: linear-gradient(135deg, #1e1b4b, #2d1b69); position: sticky; top: 0; z-index: 100; }
-    .cabecera h2 { color: #a78bfa; }
-    .productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
-    .producto-card { background: #ffffff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.2); animation: entrar 0.3s ease; cursor: pointer; }
-    .carrusel { position: relative; width: 100%; height: 150px; overflow: hidden; }
-    .carrusel img { width: 100%; height: 150px; object-fit: cover; display: none; }
-    .carrusel img.activa { display: block; }
-    .carrusel-dots { position: absolute; bottom: 5px; width: 100%; display: flex; justify-content: center; gap: 4px; }
-    .carrusel-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; }
+
+    /* CABECERA */
+    .cabecera { background: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .cabecera h2 { color: #1877f2; font-size: 20px; }
+    .cabecera-botones { display: flex; gap: 10px; }
+    .btn-icono { background: #e4e6eb; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; }
+
+    /* BÚSQUEDA */
+    .barra-busqueda { padding: 10px 15px; background: white; border-bottom: 1px solid #e4e6eb; }
+    .barra-busqueda input { width: 100%; padding: 10px 15px; border: none; border-radius: 20px; background: #f0f2f5; font-size: 15px; color: #1c1e21; }
+    .barra-busqueda input::placeholder { color: #65676b; }
+
+    /* GRID PRODUCTOS */
+    .grid-productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; padding: 2px; background: #e4e6eb; }
+    .producto-item { background: white; cursor: pointer; }
+    .producto-item img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+    .producto-item-info { padding: 8px; }
+    .producto-item-precio { font-size: 16px; font-weight: bold; color: #1c1e21; margin-bottom: 2px; }
+    .producto-item-nombre { font-size: 13px; color: #65676b; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .producto-item-ubicacion { font-size: 12px; color: #65676b; }
+
+    /* DETALLE PRODUCTO */
+    .detalle-foto { width: 100%; aspect-ratio: 1; object-fit: cover; }
+    .carrusel-detalle { position: relative; }
+    .carrusel-detalle img { width: 100%; aspect-ratio: 1; object-fit: cover; display: none; }
+    .carrusel-detalle img.activa { display: block; }
+    .carrusel-dots { position: absolute; bottom: 10px; width: 100%; display: flex; justify-content: center; gap: 6px; }
+    .carrusel-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.6); cursor: pointer; }
     .carrusel-dots span.activa { background: white; }
-    .carrusel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.4); border: none; color: white; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; padding: 0; width: 25px; margin: 0; }
-    .carrusel-btn.izq { left: 5px; }
-    .carrusel-btn.der { right: 5px; }
-    .producto-info { padding: 10px; }
-    .producto-info h3 { font-size: 14px; margin-bottom: 5px; color: #1a1a2e; font-weight: bold; }
-    .producto-info p { font-size: 12px; color: #555555; margin-bottom: 8px; }
-    .producto-precio { font-size: 16px; font-weight: bold; color: #7c3aed; margin-bottom: 8px; }
-    button { background: linear-gradient(135deg, #4c1d95, #7c3aed); color: white; padding: 12px 25px; border: none; border-radius: 25px; font-size: 15px; cursor: pointer; width: 100%; margin-bottom: 10px; }
-    .btn-volver { width: 40px; height: 40px; border-radius: 50%; padding: 0; font-size: 18px; }
-    .btn-admin { width: 40px; height: 40px; border-radius: 50%; padding: 0; font-size: 18px; }
-    .btn-whatsapp { background: linear-gradient(135deg, #15803d, #16a34a); font-size: 13px; padding: 8px; }
-    .btn-secundario { background: transparent; border: 1px solid #7c3aed; color: #a78bfa; }
-    .btn-borrar { background: linear-gradient(135deg, #991b1b, #dc2626); width: auto; padding: 8px 15px; font-size: 13px; }
-    .tarjeta { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 30px; }
-    .tarjeta h2 { margin-bottom: 20px; color: #a78bfa; font-size: 28px; }
-    input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: none; border-radius: 15px; background-color: #1e1b4b; color: white; font-size: 15px; }
-    input[type="color"] { height: 50px; cursor: pointer; }
-    textarea { height: 80px; resize: none; }
-    input::placeholder, textarea::placeholder { color: #94a3b8; }
-    .error { color: #f87171; font-size: 14px; margin-bottom: 10px; }
-    .admin-contenido { padding: 20px; }
-    .admin-contenido h3 { color: #a78bfa; margin-bottom: 15px; margin-top: 20px; }
-    .admin-producto { background: #1e1b4b; border-radius: 10px; padding: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-    .cargando { text-align: center; padding: 40px; color: #a78bfa; font-size: 18px; }
+    .carrusel-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 10px; }
+    .carrusel-nav button { background: rgba(0,0,0,0.4); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; padding: 0; margin: 0; width: 32px; }
+    .detalle-info { padding: 15px; background: white; margin-bottom: 8px; }
+    .detalle-nombre { font-size: 20px; font-weight: bold; color: #1c1e21; margin-bottom: 5px; }
+    .detalle-precio { font-size: 22px; font-weight: bold; color: #1c1e21; margin-bottom: 8px; }
+    .detalle-ubicacion { font-size: 14px; color: #65676b; margin-bottom: 5px; }
+    .detalle-fecha { font-size: 13px; color: #65676b; }
+    .detalle-whatsapp { padding: 15px; background: white; margin-bottom: 8px; border-radius: 8px; margin: 0 0 8px 0; }
+    .detalle-whatsapp h3 { font-size: 16px; color: #1c1e21; margin-bottom: 10px; }
+    .btn-whatsapp { background: #1877f2; color: white; padding: 12px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; margin-bottom: 0; }
+    .detalle-descripcion { padding: 15px; background: white; }
+    .detalle-descripcion h3 { font-size: 16px; font-weight: bold; color: #1c1e21; margin-bottom: 10px; }
+    .detalle-descripcion p { font-size: 15px; color: #1c1e21; line-height: 1.6; white-space: pre-line; }
+
+    /* RESEÑAS */
     .estrellas { display: flex; gap: 10px; margin-bottom: 15px; font-size: 30px; cursor: pointer; }
     .estrellas span { opacity: 0.3; transition: opacity 0.2s; }
     .estrellas span.activa { opacity: 1; }
-    .resena-card { background: #1e1b4b; border-radius: 15px; padding: 15px; margin-bottom: 15px; }
-    .resena-card h4 { color: #a78bfa; margin-bottom: 5px; }
-    .resena-card p { color: #94a3b8; font-size: 14px; margin-top: 5px; }
-    .resena-estrellas { font-size: 18px; margin-bottom: 5px; }
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; justify-content: center; align-items: center; flex-direction: column; }
-    .modal.activo { display: flex; }
-    .modal img { max-width: 90%; max-height: 70vh; border-radius: 10px; object-fit: contain; }
-    .modal-dots { display: flex; gap: 8px; margin-top: 15px; }
-    .modal-dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; }
-    .modal-dots span.activa { background: white; }
-    .modal-cerrar { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; cursor: pointer; padding: 0; width: 40px; margin: 0; }
-    .modal-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; cursor: pointer; padding: 0; margin: 10px; width: 40px; }
-    .modal-nav { display: flex; align-items: center; margin-top: 10px; }
-    @keyframes entrar { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .resena-card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .resena-card h4 { color: #1c1e21; margin-bottom: 5px; }
+    .resena-card p { color: #65676b; font-size: 14px; margin-top: 5px; }
+
+    /* BOTONES */
+    button { background: #1877f2; color: white; padding: 12px 25px; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; width: 100%; margin-bottom: 10px; font-weight: bold; }
+    .btn-volver { background: #e4e6eb; color: #1c1e21; width: 36px; height: 36px; border-radius: 50%; padding: 0; font-size: 18px; margin: 0; display: flex; align-items: center; justify-content: center; }
+    .btn-secundario { background: transparent; border: 1px solid #1877f2; color: #1877f2; }
+    .btn-borrar { background: #dc2626; width: auto; padding: 8px 15px; font-size: 13px; }
+
+    /* ADMIN */
+    .tarjeta { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 30px; background: white; }
+    .tarjeta h2 { margin-bottom: 20px; color: #1877f2; font-size: 28px; }
+    input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e4e6eb; border-radius: 8px; background: white; color: #1c1e21; font-size: 15px; }
+    input[type="color"] { height: 50px; cursor: pointer; }
+    textarea { height: 100px; resize: none; }
+    input::placeholder, textarea::placeholder { color: #65676b; }
+    .error { color: #dc2626; font-size: 14px; margin-bottom: 10px; }
+    .admin-contenido { padding: 15px; background: #f0f2f5; min-height: 100vh; }
+    .admin-card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; }
+    .admin-card h3 { color: #1877f2; margin-bottom: 15px; font-size: 16px; }
+    .admin-producto { background: #f0f2f5; border-radius: 8px; padding: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .cargando { text-align: center; padding: 40px; color: #65676b; font-size: 16px; }
+    .fila-colores { display: flex; gap: 10px; margin-bottom: 10px; }
+    .fila-colores input[type="color"] { flex: 1; }
+
+    /* NAV INFERIOR */
+    .nav-inferior { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 4px rgba(0,0,0,0.1); z-index: 100; }
+    .nav-btn { background: none; border: none; color: #65676b; font-size: 24px; cursor: pointer; padding: 5px 15px; width: auto; margin: 0; display: flex; flex-direction: column; align-items: center; font-size: 20px; }
+    .nav-btn span { font-size: 11px; color: #65676b; margin-top: 2px; }
+    .nav-btn.activo { color: #1877f2; }
+    .nav-btn.activo span { color: #1877f2; }
+    .contenido-principal { padding-bottom: 70px; }
+
+    @keyframes entrar { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .producto-item { animation: entrar 0.3s ease; }
   </style>
 </head>
 <body>
 
-<div class="modal" id="modal">
-  <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
-  <img id="modalImg" src="">
-  <div class="modal-nav">
-    <button class="modal-btn" onclick="modalNav(-1)">←</button>
-    <div class="modal-dots" id="modalDots"></div>
-    <button class="modal-btn" onclick="modalNav(1)">→</button>
-  </div>
-</div>
-
+<!-- PANTALLA PRINCIPAL -->
 <div class="pantalla" id="inicio">
-  <div class="hero">
-    <button class="btn-personalizar" onclick="irA('loginPersonalizar')">🎨</button>
-    <h1>📱 Leo Mobile</h1>
-    <p>Los mejores teléfonos al mejor precio</p>
-    <button onclick="irA('resenas')">⭐ Ver reseñas</button>
-    <button onclick="irA('catalogo')">Ver catálogo →</button>
+  <div class="cabecera">
+    <h2>📱 Leo Mobile</h2>
+    <div class="cabecera-botones">
+      <button class="btn-icono" onclick="irA('resenas')">⭐</button>
+      <button class="btn-icono" onclick="irA('loginAdmin')">⚙️</button>
+    </div>
+  </div>
+  <div class="barra-busqueda">
+    <input type="text" id="busqueda" placeholder="🔍 Buscar teléfonos..." oninput="filtrarProductos()">
+  </div>
+  <div class="contenido-principal">
+    <div class="grid-productos" id="gridProductos">
+      <div class="cargando" style="grid-column:span 2">⏳ Cargando productos...</div>
+    </div>
   </div>
 </div>
 
+<!-- DETALLE PRODUCTO -->
+<div class="pantalla oculto" id="detalleProducto">
+  <div class="cabecera">
+    <button class="btn-volver" onclick="irA('inicio')">←</button>
+    <h2 id="detalleTitulo" style="font-size:16px;flex:1;margin:0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Producto</h2>
+  </div>
+  <div class="contenido-principal">
+    <div class="carrusel-detalle" id="carruselDetalle">
+      <div class="carrusel-nav">
+        <button onclick="moverDetalle(-1)">‹</button>
+        <button onclick="moverDetalle(1)">›</button>
+      </div>
+      <div class="carrusel-dots" id="dotsDetalle"></div>
+    </div>
+    <div class="detalle-info">
+      <div class="detalle-nombre" id="detalleNombre"></div>
+      <div class="detalle-precio" id="detallePrecio"></div>
+      <div class="detalle-ubicacion">📍 Cúcuta, Norte de Santander</div>
+    </div>
+    <div class="detalle-whatsapp" style="padding:15px;background:white;margin-bottom:8px;">
+      <h3>🟢 Envía un mensaje al vendedor</h3>
+      <button class="btn-whatsapp" onclick="contactarVendedor()">💬 Enviar mensaje por WhatsApp</button>
+    </div>
+    <div class="detalle-descripcion">
+      <h3>Descripción</h3>
+      <p id="detalleDescripcion"></p>
+    </div>
+  </div>
+</div>
+
+<!-- RESEÑAS -->
 <div class="pantalla oculto" id="resenas">
   <div class="cabecera">
     <button class="btn-volver" onclick="irA('inicio')">←</button>
     <h2>⭐ Reseñas</h2>
   </div>
   <div class="admin-contenido">
-    <h3>✍️ Deja tu reseña</h3>
-    <input type="text" id="nombreResena" placeholder="Tu nombre">
-    <div class="estrellas" id="estrellasInput">
-      <span onclick="selEstrellas(1)">⭐</span>
-      <span onclick="selEstrellas(2)">⭐</span>
-      <span onclick="selEstrellas(3)">⭐</span>
-      <span onclick="selEstrellas(4)">⭐</span>
-      <span onclick="selEstrellas(5)">⭐</span>
+    <div class="admin-card">
+      <h3>✍️ Deja tu reseña</h3>
+      <input type="text" id="nombreResena" placeholder="Tu nombre">
+      <div class="estrellas" id="estrellasInput">
+        <span onclick="selEstrellas(1)">⭐</span>
+        <span onclick="selEstrellas(2)">⭐</span>
+        <span onclick="selEstrellas(3)">⭐</span>
+        <span onclick="selEstrellas(4)">⭐</span>
+        <span onclick="selEstrellas(5)">⭐</span>
+      </div>
+      <textarea id="comentarioResena" placeholder="Tu comentario"></textarea>
+      <button onclick="agregarResena()">✍️ Publicar reseña</button>
     </div>
-    <textarea id="comentarioResena" placeholder="Tu comentario"></textarea>
-    <button onclick="agregarResena()">✍️ Publicar reseña</button>
-    <h3>💬 Reseñas de clientes</h3>
     <div id="listaResenas"><div class="cargando">⏳ Cargando reseñas...</div></div>
   </div>
 </div>
 
-<div class="pantalla oculto" id="catalogo">
-  <div class="cabecera">
-    <button class="btn-volver" onclick="irA('inicio')">←</button>
-    <h2>📱 Catálogo</h2>
-    <button class="btn-admin" onclick="irA('loginAdmin')">⚙️</button>
-  </div>
-  <div class="productos" id="listaProductos">
-    <div class="cargando">⏳ Cargando productos...</div>
-  </div>
-</div>
-
+<!-- LOGIN ADMIN -->
 <div class="pantalla oculto" id="loginAdmin">
   <div class="tarjeta">
     <h2>🔐 Admin</h2>
     <input type="password" id="passAdmin" placeholder="Contraseña">
     <button onclick="entrarAdmin()">Entrar →</button>
     <p id="errorAdmin" class="oculto error">❌ Contraseña incorrecta</p>
-    <button class="btn-secundario" onclick="irA('catalogo')">← Volver</button>
-  </div>
-</div>
-
-<div class="pantalla oculto" id="panelAdmin">
-  <div class="cabecera">
-    <button class="btn-volver" onclick="irA('catalogo')">←</button>
-    <h2>⚙️ Panel Admin</h2>
-  </div>
-  <div class="admin-contenido">
-    <h3>➕ Agregar producto</h3>
-    <input type="text" id="nombreProducto" placeholder="Nombre del teléfono">
-    <input type="text" id="precioProducto" placeholder="Precio (ej: $1.500.000)">
-    <input type="text" id="foto1Producto" placeholder="URL foto 1 (principal)">
-    <input type="text" id="foto2Producto" placeholder="URL foto 2 (opcional)">
-    <input type="text" id="foto3Producto" placeholder="URL foto 3 (opcional)">
-    <input type="text" id="foto4Producto" placeholder="URL foto 4 (opcional)">
-    <textarea id="descProducto" placeholder="Descripción"></textarea>
-    <button onclick="agregarProducto()">➕ Agregar producto</button>
-    <h3>🗑️ Gestionar reseñas</h3>
-    <div id="listaResenasAdmin"><div class="cargando">⏳ Cargando...</div></div>
-    <h3>🛍️ Fondo de la tienda</h3>
-    <p style="color:#a78bfa">Color:</p>
-    <input type="color" id="colorTienda" value="#0a0a2e">
-    <button onclick="aplicarColorTienda()">Aplicar color</button>
-    <p style="color:#a78bfa">Imagen:</p>
-    <input type="text" id="imagenTienda" placeholder="Pega el link de la imagen">
-    <button onclick="aplicarImagenTienda()">Aplicar imagen</button>
-    <p style="color:#a78bfa">Degradado:</p>
-    <input type="color" id="color1Tienda" value="#0a0a2e">
-    <input type="color" id="color2Tienda" value="#2d1b69">
-    <button onclick="aplicarDegradadoTienda()">Aplicar degradado</button>
-    <button class="btn-secundario" onclick="restaurarTienda()">↩️ Restaurar tienda</button>
-    <h3>🔑 Cambiar contraseña</h3>
-    <input type="password" id="nuevaPass" placeholder="Nueva contraseña">
-    <button onclick="cambiarPass()">🔑 Cambiar</button>
-    <div id="listaAdmin"></div>
-  </div>
-</div>
-
-<div class="pantalla oculto" id="loginPersonalizar">
-  <div class="tarjeta">
-    <h2>🎨 Personalizar inicio</h2>
-    <input type="password" id="passPersonalizar" placeholder="Contraseña">
-    <button onclick="entrarPersonalizar()">Entrar →</button>
-    <p id="errorPersonalizar" class="oculto error">❌ Contraseña incorrecta</p>
     <button class="btn-secundario" onclick="irA('inicio')">← Volver</button>
   </div>
 </div>
 
-<div class="pantalla oculto" id="panelPersonalizar">
+<!-- PANEL ADMIN -->
+<div class="pantalla oculto" id="panelAdmin">
   <div class="cabecera">
     <button class="btn-volver" onclick="irA('inicio')">←</button>
-    <h2>🎨 Personalizar inicio</h2>
+    <h2>⚙️ Panel Admin</h2>
   </div>
   <div class="admin-contenido">
-    <h3>Color de fondo</h3>
-    <input type="color" id="colorInicio" value="#0a0a2e">
-    <button onclick="aplicarColorInicio()">Aplicar color</button>
-    <h3>Imagen de fondo</h3>
-    <input type="text" id="imagenInicio" placeholder="Pega el link de la imagen">
-    <button onclick="aplicarImagenInicio()">Aplicar imagen</button>
-    <h3>Degradado</h3>
-    <input type="color" id="color1Inicio" value="#0a0a2e">
-    <input type="color" id="color2Inicio" value="#2d1b69">
-    <button onclick="aplicarDegradadoInicio()">Aplicar degradado</button>
-    <button class="btn-secundario" onclick="restaurarInicio()">↩️ Restaurar original</button>
+    <div class="admin-card">
+      <h3>➕ Agregar producto</h3>
+      <input type="text" id="nombreProducto" placeholder="Nombre del teléfono">
+      <input type="text" id="precioProducto" placeholder="Precio (ej: $450.000)">
+      <input type="text" id="foto1Producto" placeholder="URL foto 1 (principal)">
+      <input type="text" id="foto2Producto" placeholder="URL foto 2 (opcional)">
+      <input type="text" id="foto3Producto" placeholder="URL foto 3 (opcional)">
+      <input type="text" id="foto4Producto" placeholder="URL foto 4 (opcional)">
+      <textarea id="descProducto" placeholder="Descripción completa del teléfono"></textarea>
+      <button onclick="agregarProducto()">➕ Publicar producto</button>
+    </div>
+
+    <div class="admin-card">
+      <h3>🎨 Personalizar colores</h3>
+      <p style="color:#65676b;font-size:14px;margin-bottom:10px;">Color fondo:</p>
+      <input type="color" id="colorFondo" value="#f0f2f5">
+      <button onclick="aplicarColorFondo()">Aplicar fondo</button>
+      <p style="color:#65676b;font-size:14px;margin-bottom:10px;">Degradado fondo:</p>
+      <div class="fila-colores">
+        <input type="color" id="colorFondo1" value="#f0f2f5">
+        <input type="color" id="colorFondo2" value="#ffffff">
+      </div>
+      <button onclick="aplicarDegradadoFondo()">Aplicar degradado</button>
+      <p style="color:#65676b;font-size:14px;margin-bottom:10px;">Color cabecera:</p>
+      <input type="color" id="colorCabecera" value="#ffffff">
+      <button onclick="aplicarColorCabecera()">Aplicar cabecera</button>
+      <p style="color:#65676b;font-size:14px;margin-bottom:10px;">Color letras:</p>
+      <input type="color" id="colorLetras" value="#1c1e21">
+      <button onclick="aplicarColorLetras()">Aplicar letras</button>
+      <button class="btn-secundario" onclick="restaurarColores()">↩️ Restaurar colores</button>
+    </div>
+
+    <div class="admin-card">
+      <h3>🔑 Cambiar contraseña</h3>
+      <input type="password" id="nuevaPass" placeholder="Nueva contraseña">
+      <button onclick="cambiarPass()">🔑 Cambiar</button>
+    </div>
+
+    <div class="admin-card">
+      <h3>📦 Tus productos</h3>
+      <div id="listaAdmin"><div class="cargando">⏳ Cargando...</div></div>
+    </div>
+
+    <div class="admin-card">
+      <h3>🗑️ Gestionar reseñas</h3>
+      <div id="listaResenasAdmin"><div class="cargando">⏳ Cargando...</div></div>
+    </div>
   </div>
 </div>
 
@@ -229,118 +263,115 @@ const db = getFirestore(app);
 
 let contrasena = localStorage.getItem("contrasena") || "Chipi14919066";
 let estrellasSeleccionadas = 0;
-let modalFotos = [];
-let modalIndex = 0;
+let todosProductos = [];
+let productoActual = null;
+let indexFotoDetalle = 0;
 
 window.irA = function(pantallaId) {
   document.querySelectorAll(".pantalla").forEach(p => p.classList.add("oculto"));
   document.querySelector("#" + pantallaId).classList.remove("oculto");
-  if (pantallaId === "catalogo") cargarProductos();
+  if (pantallaId === "inicio") cargarProductos();
   if (pantallaId === "panelAdmin") { cargarAdmin(); cargarResenasAdmin(); }
   if (pantallaId === "resenas") cargarResenas();
 }
 
-window.abrirModal = function(fotos, index) {
-  modalFotos = fotos;
-  modalIndex = index;
-  actualizarModal();
-  document.querySelector("#modal").classList.add("activo");
+async function cargarProductos() {
+  const grid = document.querySelector("#gridProductos");
+  grid.innerHTML = "<div class='cargando' style='grid-column:span 2'>⏳ Cargando productos...</div>";
+  const snapshot = await getDocs(query(collection(db, "productos"), orderBy("fecha", "desc")));
+  todosProductos = [];
+  snapshot.forEach(d => todosProductos.push({ id: d.id, ...d.data() }));
+  mostrarProductos(todosProductos);
 }
 
-window.cerrarModal = function() {
-  document.querySelector("#modal").classList.remove("activo");
-}
-
-window.modalNav = function(dir) {
-  modalIndex = (modalIndex + dir + modalFotos.length) % modalFotos.length;
-  actualizarModal();
-}
-
-function actualizarModal() {
-  document.querySelector("#modalImg").src = modalFotos[modalIndex];
-  const dots = document.querySelector("#modalDots");
-  dots.innerHTML = "";
-  modalFotos.forEach((_, i) => {
-    dots.innerHTML += `<span class="${i === modalIndex ? 'activa' : ''}" onclick="window.abrirModal(modalFotos, ${i})"></span>`;
+function mostrarProductos(lista) {
+  const grid = document.querySelector("#gridProductos");
+  grid.innerHTML = "";
+  if (lista.length === 0) {
+    grid.innerHTML = "<div class='cargando' style='grid-column:span 2'>📭 No hay productos aún</div>";
+    return;
+  }
+  lista.forEach(p => {
+    const fotos = [p.foto1, p.foto2, p.foto3, p.foto4].filter(f => f && f.trim() !== "");
+    const foto = fotos[0] || "https://via.placeholder.com/300";
+    grid.innerHTML += `
+      <div class="producto-item" onclick="abrirDetalle('${p.id}')">
+        <img src="${foto}" onerror="this.src='https://via.placeholder.com/300'">
+        <div class="producto-item-info">
+          <div class="producto-item-precio">${p.precio}</div>
+          <div class="producto-item-nombre">${p.nombre}</div>
+          <div class="producto-item-ubicacion">📍 Cúcuta, Norte de Santander</div>
+        </div>
+      </div>`;
   });
+}
+
+window.filtrarProductos = function() {
+  const busqueda = document.querySelector("#busqueda").value.toLowerCase();
+  const filtrados = todosProductos.filter(p => p.nombre.toLowerCase().includes(busqueda) || p.descripcion.toLowerCase().includes(busqueda));
+  mostrarProductos(filtrados);
+}
+
+window.abrirDetalle = function(id) {
+  const p = todosProductos.find(x => x.id === id);
+  if (!p) return;
+  productoActual = p;
+  indexFotoDetalle = 0;
+  document.querySelector("#detalleTitulo").textContent = p.nombre;
+  document.querySelector("#detalleNombre").textContent = p.nombre;
+  document.querySelector("#detallePrecio").textContent = p.precio;
+  document.querySelector("#detalleDescripcion").textContent = p.descripcion;
+  const fotos = [p.foto1, p.foto2, p.foto3, p.foto4].filter(f => f && f.trim() !== "");
+  if (fotos.length === 0) fotos.push("https://via.placeholder.com/300");
+  const carrusel = document.querySelector("#carruselDetalle");
+  carrusel.querySelectorAll("img").forEach(img => img.remove());
+  const dots = document.querySelector("#dotsDetalle");
+  const nav = carrusel.querySelector(".carrusel-nav");
+  dots.innerHTML = "";
+  fotos.forEach((f, i) => {
+    const img = document.createElement("img");
+    img.src = f;
+    img.className = i === 0 ? "activa" : "";
+    img.onerror = () => img.src = "https://via.placeholder.com/300";
+    carrusel.insertBefore(img, nav);
+    dots.innerHTML += `<span class="${i === 0 ? 'activa' : ''}" onclick="irFotoDetalle(${i})"></span>`;
+  });
+  if (fotos.length <= 1) nav.style.display = "none";
+  else nav.style.display = "flex";
+  window.irA("detalleProducto");
+}
+
+window.moverDetalle = function(dir) {
+  if (!productoActual) return;
+  const fotos = [productoActual.foto1, productoActual.foto2, productoActual.foto3, productoActual.foto4].filter(f => f && f.trim() !== "");
+  const imgs = document.querySelectorAll("#carruselDetalle img");
+  const dots = document.querySelectorAll("#dotsDetalle span");
+  imgs[indexFotoDetalle].classList.remove("activa");
+  dots[indexFotoDetalle].classList.remove("activa");
+  indexFotoDetalle = (indexFotoDetalle + dir + fotos.length) % fotos.length;
+  imgs[indexFotoDetalle].classList.add("activa");
+  dots[indexFotoDetalle].classList.add("activa");
+}
+
+window.irFotoDetalle = function(i) {
+  const imgs = document.querySelectorAll("#carruselDetalle img");
+  const dots = document.querySelectorAll("#dotsDetalle span");
+  imgs[indexFotoDetalle].classList.remove("activa");
+  dots[indexFotoDetalle].classList.remove("activa");
+  indexFotoDetalle = i;
+  imgs[indexFotoDetalle].classList.add("activa");
+  dots[indexFotoDetalle].classList.add("activa");
+}
+
+window.contactarVendedor = function() {
+  if (!productoActual) return;
+  const mensaje = `Hola! Estoy interesado en: ${productoActual.nombre} - ${productoActual.precio}`;
+  window.location.href = `https://wa.me/573107681757?text=${encodeURIComponent(mensaje)}`;
 }
 
 window.selEstrellas = function(n) {
   estrellasSeleccionadas = n;
-  document.querySelectorAll("#estrellasInput span").forEach((s, i) => {
-    s.classList.toggle("activa", i < n);
-  });
-}
-
-async function cargarProductos() {
-  const lista = document.querySelector("#listaProductos");
-  lista.innerHTML = "<div class='cargando'>⏳ Cargando productos...</div>";
-  const snapshot = await getDocs(collection(db, "productos"));
-  lista.innerHTML = "";
-  if (snapshot.empty) {
-    lista.innerHTML = "<div class='cargando'>📭 No hay productos aún</div>";
-    return;
-  }
-  snapshot.forEach(d => {
-    const p = d.data();
-    const fotos = [p.foto1, p.foto2, p.foto3, p.foto4].filter(f => f && f.trim() !== "");
-    if (fotos.length === 0) fotos.push("https://via.placeholder.com/150");
-    const fotosJson = JSON.stringify(fotos).replace(/"/g, '&quot;');
-    let imgs = fotos.map((f, i) => `<img src="${f}" class="${i === 0 ? 'activa' : ''}" onerror="this.src='https://via.placeholder.com/150'">`).join("");
-    let dots = fotos.length > 1 ? `<div class="carrusel-dots">${fotos.map((_, i) => `<span class="${i === 0 ? 'activa' : ''}" onclick="cambiarFoto(this, ${i})"></span>`).join("")}</div>` : "";
-    let btns = fotos.length > 1 ? `<button class="carrusel-btn izq" onclick="moverCarrusel(this, -1)">‹</button><button class="carrusel-btn der" onclick="moverCarrusel(this, 1)">›</button>` : "";
-    lista.innerHTML += `
-      <div class="producto-card">
-        <div class="carrusel" onclick="window.abrirModal(${fotosJson}, 0)">
-          ${imgs}${dots}${btns}
-        </div>
-        <div class="producto-info">
-          <h3>${p.nombre}</h3>
-          <p>${p.descripcion}</p>
-          <div class="producto-precio">${p.precio}</div>
-          <button class="btn-whatsapp" onclick="comprar('${p.nombre}', '${p.precio}')">🟢 Pedir por WhatsApp</button>
-        </div>
-      </div>`;
-  });
-}
-
-window.moverCarrusel = function(btn, dir) {
-  event.stopPropagation();
-  const carrusel = btn.closest(".carrusel");
-  const imgs = carrusel.querySelectorAll("img");
-  const dots = carrusel.querySelectorAll(".carrusel-dots span");
-  let actual = 0;
-  imgs.forEach((img, i) => { if (img.classList.contains("activa")) actual = i; });
-  imgs[actual].classList.remove("activa");
-  if (dots.length) dots[actual].classList.remove("activa");
-  actual = (actual + dir + imgs.length) % imgs.length;
-  imgs[actual].classList.add("activa");
-  if (dots.length) dots[actual].classList.add("activa");
-}
-
-window.cambiarFoto = function(dot, index) {
-  event.stopPropagation();
-  const carrusel = dot.closest(".carrusel");
-  const imgs = carrusel.querySelectorAll("img");
-  const dots = carrusel.querySelectorAll(".carrusel-dots span");
-  imgs.forEach(img => img.classList.remove("activa"));
-  dots.forEach(d => d.classList.remove("activa"));
-  imgs[index].classList.add("activa");
-  dots[index].classList.add("activa");
-}
-
-async function cargarAdmin() {
-  const lista = document.querySelector("#listaAdmin");
-  lista.innerHTML = "<h3>Tus productos</h3>";
-  const snapshot = await getDocs(collection(db, "productos"));
-  snapshot.forEach(d => {
-    const p = d.data();
-    lista.innerHTML += `
-      <div class="admin-producto">
-        <span>${p.nombre} - ${p.precio}</span>
-        <button class="btn-borrar" onclick="borrarProducto('${d.id}')">🗑️</button>
-      </div>`;
-  });
+  document.querySelectorAll("#estrellasInput span").forEach((s, i) => s.classList.toggle("activa", i < n));
 }
 
 async function cargarResenas() {
@@ -348,16 +379,13 @@ async function cargarResenas() {
   lista.innerHTML = "<div class='cargando'>⏳ Cargando reseñas...</div>";
   const snapshot = await getDocs(query(collection(db, "resenas"), orderBy("fecha", "desc")));
   lista.innerHTML = "";
-  if (snapshot.empty) {
-    lista.innerHTML = "<div class='cargando'>📭 Aún no hay reseñas</div>";
-    return;
-  }
+  if (snapshot.empty) { lista.innerHTML = "<div class='cargando'>📭 Aún no hay reseñas</div>"; return; }
   snapshot.forEach(d => {
     const r = d.data();
     lista.innerHTML += `
       <div class="resena-card">
         <h4>${r.nombre}</h4>
-        <div class="resena-estrellas">${"⭐".repeat(r.estrellas)}</div>
+        <div>${"⭐".repeat(r.estrellas)}</div>
         <p>${r.comentario}</p>
       </div>`;
   });
@@ -367,10 +395,7 @@ async function cargarResenasAdmin() {
   const lista = document.querySelector("#listaResenasAdmin");
   lista.innerHTML = "";
   const snapshot = await getDocs(query(collection(db, "resenas"), orderBy("fecha", "desc")));
-  if (snapshot.empty) {
-    lista.innerHTML = "<div class='cargando'>📭 No hay reseñas</div>";
-    return;
-  }
+  if (snapshot.empty) { lista.innerHTML = "<div class='cargando'>📭 No hay reseñas</div>"; return; }
   snapshot.forEach(d => {
     const r = d.data();
     lista.innerHTML += `
@@ -381,57 +406,10 @@ async function cargarResenasAdmin() {
   });
 }
 
-window.comprar = function(nombre, precio) {
-  const mensaje = `Hola! Estoy interesado en: ${nombre} - ${precio}`;
-  window.open(`https://wa.me/573107681757?text=${encodeURIComponent(mensaje)}`);
-}
-
-window.entrarAdmin = function() {
-  const pass = document.querySelector("#passAdmin").value;
-  const error = document.querySelector("#errorAdmin");
-  if (pass === contrasena) {
-    error.classList.add("oculto");
-    document.querySelector("#passAdmin").value = "";
-    window.irA("panelAdmin");
-  } else {
-    error.classList.remove("oculto");
-  }
-}
-
-window.agregarProducto = async function() {
-  const nombre = document.querySelector("#nombreProducto").value;
-  const precio = document.querySelector("#precioProducto").value;
-  const foto1 = document.querySelector("#foto1Producto").value;
-  const foto2 = document.querySelector("#foto2Producto").value;
-  const foto3 = document.querySelector("#foto3Producto").value;
-  const foto4 = document.querySelector("#foto4Producto").value;
-  const desc = document.querySelector("#descProducto").value;
-  if (!nombre || !precio || !foto1) { alert("Pon al menos el nombre, precio y foto principal"); return; }
-  await addDoc(collection(db, "productos"), { nombre, precio, foto1, foto2, foto3, foto4, descripcion: desc });
-  document.querySelector("#nombreProducto").value = "";
-  document.querySelector("#precioProducto").value = "";
-  document.querySelector("#foto1Producto").value = "";
-  document.querySelector("#foto2Producto").value = "";
-  document.querySelector("#foto3Producto").value = "";
-  document.querySelector("#foto4Producto").value = "";
-  document.querySelector("#descProducto").value = "";
-  alert("✅ Producto agregado");
-  cargarAdmin();
-}
-
-window.borrarProducto = async function(id) {
-  await deleteDoc(doc(db, "productos", id));
-  cargarAdmin();
-  alert("🗑️ Producto borrado");
-}
-
 window.agregarResena = async function() {
   const nombre = document.querySelector("#nombreResena").value;
   const comentario = document.querySelector("#comentarioResena").value;
-  if (!nombre || !comentario || estrellasSeleccionadas === 0) {
-    alert("Completa tu nombre, estrellas y comentario");
-    return;
-  }
+  if (!nombre || !comentario || estrellasSeleccionadas === 0) { alert("Completa tu nombre, estrellas y comentario"); return; }
   await addDoc(collection(db, "resenas"), { nombre, comentario, estrellas: estrellasSeleccionadas, fecha: new Date().toISOString() });
   document.querySelector("#nombreResena").value = "";
   document.querySelector("#comentarioResena").value = "";
@@ -447,6 +425,60 @@ window.borrarResena = async function(id) {
   alert("🗑️ Reseña borrada");
 }
 
+async function cargarAdmin() {
+  const lista = document.querySelector("#listaAdmin");
+  lista.innerHTML = "";
+  const snapshot = await getDocs(query(collection(db, "productos"), orderBy("fecha", "desc")));
+  if (snapshot.empty) { lista.innerHTML = "<div class='cargando'>📭 No hay productos</div>"; return; }
+  snapshot.forEach(d => {
+    const p = d.data();
+    lista.innerHTML += `
+      <div class="admin-producto">
+        <span>${p.nombre} - ${p.precio}</span>
+        <button class="btn-borrar" onclick="borrarProducto('${d.id}')">🗑️</button>
+      </div>`;
+  });
+}
+
+window.agregarProducto = async function() {
+  const nombre = document.querySelector("#nombreProducto").value;
+  const precio = document.querySelector("#precioProducto").value;
+  const foto1 = document.querySelector("#foto1Producto").value;
+  const foto2 = document.querySelector("#foto2Producto").value;
+  const foto3 = document.querySelector("#foto3Producto").value;
+  const foto4 = document.querySelector("#foto4Producto").value;
+  const desc = document.querySelector("#descProducto").value;
+  if (!nombre || !precio || !foto1) { alert("Pon al menos nombre, precio y foto principal"); return; }
+  await addDoc(collection(db, "productos"), { nombre, precio, foto1, foto2, foto3, foto4, descripcion: desc, fecha: new Date().toISOString() });
+  document.querySelector("#nombreProducto").value = "";
+  document.querySelector("#precioProducto").value = "";
+  document.querySelector("#foto1Producto").value = "";
+  document.querySelector("#foto2Producto").value = "";
+  document.querySelector("#foto3Producto").value = "";
+  document.querySelector("#foto4Producto").value = "";
+  document.querySelector("#descProducto").value = "";
+  alert("✅ Producto publicado");
+  cargarAdmin();
+}
+
+window.borrarProducto = async function(id) {
+  await deleteDoc(doc(db, "productos", id));
+  cargarAdmin();
+  alert("🗑️ Producto borrado");
+}
+
+window.entrarAdmin = function() {
+  const pass = document.querySelector("#passAdmin").value;
+  const error = document.querySelector("#errorAdmin");
+  if (pass === contrasena) {
+    error.classList.add("oculto");
+    document.querySelector("#passAdmin").value = "";
+    window.irA("panelAdmin");
+  } else {
+    error.classList.remove("oculto");
+  }
+}
+
 window.cambiarPass = function() {
   const nueva = document.querySelector("#nuevaPass").value;
   if (!nueva) { alert("Escribe una nueva contraseña"); return; }
@@ -456,68 +488,50 @@ window.cambiarPass = function() {
   alert("✅ Contraseña cambiada");
 }
 
-window.entrarPersonalizar = function() {
-  const pass = document.querySelector("#passPersonalizar").value;
-  const error = document.querySelector("#errorPersonalizar");
-  if (pass === contrasena) {
-    error.classList.add("oculto");
-    document.querySelector("#passPersonalizar").value = "";
-    window.irA("panelPersonalizar");
-  } else {
-    error.classList.remove("oculto");
-  }
-}
-
-window.aplicarColorInicio = function() {
-  const color = document.querySelector("#colorInicio").value;
+window.aplicarColorFondo = function() {
+  const color = document.querySelector("#colorFondo").value;
   document.body.style.background = color;
-  document.querySelector(".hero").style.background = color;
+  localStorage.setItem("bgLeo", color);
 }
 
-window.aplicarImagenInicio = function() {
-  const url = document.querySelector("#imagenInicio").value;
-  if (!url) { alert("Pega un link de imagen"); return; }
-  const bg = `url('${url}') center/cover no-repeat`;
-  document.body.style.background = bg;
-  document.querySelector(".hero").style.background = bg;
+window.aplicarDegradadoFondo = function() {
+  const c1 = document.querySelector("#colorFondo1").value;
+  const c2 = document.querySelector("#colorFondo2").value;
+  const deg = `linear-gradient(135deg, ${c1}, ${c2})`;
+  document.body.style.background = deg;
+  localStorage.setItem("bgLeo", deg);
 }
 
-window.aplicarDegradadoInicio = function() {
-  const color1 = document.querySelector("#color1Inicio").value;
-  const color2 = document.querySelector("#color2Inicio").value;
-  const degradado = `linear-gradient(135deg, ${color1}, ${color2})`;
-  document.body.style.background = degradado;
-  document.querySelector(".hero").style.background = degradado;
+window.aplicarColorCabecera = function() {
+  const color = document.querySelector("#colorCabecera").value;
+  document.querySelectorAll(".cabecera").forEach(el => el.style.background = color);
+  localStorage.setItem("cabeceraLeo", color);
 }
 
-window.restaurarInicio = function() {
-  const original = "linear-gradient(135deg, #0a0a2e, #1a0a3e)";
-  document.body.style.background = original;
-  document.querySelector(".hero").style.background = original;
+window.aplicarColorLetras = function() {
+  const color = document.querySelector("#colorLetras").value;
+  document.body.style.color = color;
+  localStorage.setItem("letrasLeo", color);
 }
 
-window.aplicarColorTienda = function() {
-  const color = document.querySelector("#colorTienda").value;
-  document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = color);
+window.restaurarColores = function() {
+  document.body.style.background = "#f0f2f5";
+  document.body.style.color = "#1c1e21";
+  document.querySelectorAll(".cabecera").forEach(el => el.style.background = "white");
+  localStorage.removeItem("bgLeo");
+  localStorage.removeItem("cabeceraLeo");
+  localStorage.removeItem("letrasLeo");
+  alert("✅ Colores restaurados");
 }
 
-window.aplicarImagenTienda = function() {
-  const url = document.querySelector("#imagenTienda").value;
-  if (!url) { alert("Pega un link de imagen"); return; }
-  const bg = `url('${url}') center/cover no-repeat`;
-  document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = bg);
-}
+// Cargar estilos guardados
+const bgLeo = localStorage.getItem("bgLeo");
+const cabeceraLeo = localStorage.getItem("cabeceraLeo");
+const letrasLeo = localStorage.getItem("letrasLeo");
+if (bgLeo) document.body.style.background = bgLeo;
+if (letrasLeo) document.body.style.color = letrasLeo;
 
-window.aplicarDegradadoTienda = function() {
-  const color1 = document.querySelector("#color1Tienda").value;
-  const color2 = document.querySelector("#color2Tienda").value;
-  const degradado = `linear-gradient(135deg, ${color1}, ${color2})`;
-  document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = degradado);
-}
-
-window.restaurarTienda = function() {
-  document.querySelectorAll("#catalogo, #panelAdmin, #loginAdmin").forEach(el => el.style.background = "");
-}
+cargarProductos();
 </script>
 </body>
 </html>
