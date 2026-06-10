@@ -16,19 +16,13 @@
     body { background: #f0f2f5; font-family: Arial; min-height: 100vh; color: #1c1e21; }
     .pantalla { min-height: 100vh; width: 100%; }
     .oculto { display: none; }
-
-    /* CABECERA */
     .cabecera { background: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .cabecera h2 { color: #1877f2; font-size: 20px; }
     .cabecera-botones { display: flex; gap: 10px; }
-    .btn-icono { background: #e4e6eb; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; }
-
-    /* BÚSQUEDA */
+    .btn-icono { background: #e4e6eb; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; width: 36px; margin: 0; }
     .barra-busqueda { padding: 10px 15px; background: white; border-bottom: 1px solid #e4e6eb; }
     .barra-busqueda input { width: 100%; padding: 10px 15px; border: none; border-radius: 20px; background: #f0f2f5; font-size: 15px; color: #1c1e21; }
     .barra-busqueda input::placeholder { color: #65676b; }
-
-    /* GRID PRODUCTOS */
     .grid-productos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; padding: 2px; background: #e4e6eb; }
     .producto-item { background: white; cursor: pointer; }
     .producto-item img { width: 100%; aspect-ratio: 1; object-fit: cover; }
@@ -36,9 +30,6 @@
     .producto-item-precio { font-size: 16px; font-weight: bold; color: #1c1e21; margin-bottom: 2px; }
     .producto-item-nombre { font-size: 13px; color: #65676b; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .producto-item-ubicacion { font-size: 12px; color: #65676b; }
-
-    /* DETALLE PRODUCTO */
-    .detalle-foto { width: 100%; aspect-ratio: 1; object-fit: cover; }
     .carrusel-detalle { position: relative; }
     .carrusel-detalle img { width: 100%; aspect-ratio: 1; object-fit: cover; display: none; }
     .carrusel-detalle img.activa { display: block; }
@@ -50,30 +41,23 @@
     .detalle-info { padding: 15px; background: white; margin-bottom: 8px; }
     .detalle-nombre { font-size: 20px; font-weight: bold; color: #1c1e21; margin-bottom: 5px; }
     .detalle-precio { font-size: 22px; font-weight: bold; color: #1c1e21; margin-bottom: 8px; }
-    .detalle-ubicacion { font-size: 14px; color: #65676b; margin-bottom: 5px; }
-    .detalle-fecha { font-size: 13px; color: #65676b; }
-    .detalle-whatsapp { padding: 15px; background: white; margin-bottom: 8px; border-radius: 8px; margin: 0 0 8px 0; }
+    .detalle-ubicacion { font-size: 14px; color: #65676b; }
+    .detalle-whatsapp { padding: 15px; background: white; margin-bottom: 8px; }
     .detalle-whatsapp h3 { font-size: 16px; color: #1c1e21; margin-bottom: 10px; }
     .btn-whatsapp { background: #1877f2; color: white; padding: 12px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; margin-bottom: 0; }
-    .detalle-descripcion { padding: 15px; background: white; }
+    .detalle-descripcion { padding: 15px; background: white; margin-bottom: 70px; }
     .detalle-descripcion h3 { font-size: 16px; font-weight: bold; color: #1c1e21; margin-bottom: 10px; }
     .detalle-descripcion p { font-size: 15px; color: #1c1e21; line-height: 1.6; white-space: pre-line; }
-
-    /* RESEÑAS */
     .estrellas { display: flex; gap: 10px; margin-bottom: 15px; font-size: 30px; cursor: pointer; }
     .estrellas span { opacity: 0.3; transition: opacity 0.2s; }
     .estrellas span.activa { opacity: 1; }
     .resena-card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
     .resena-card h4 { color: #1c1e21; margin-bottom: 5px; }
     .resena-card p { color: #65676b; font-size: 14px; margin-top: 5px; }
-
-    /* BOTONES */
     button { background: #1877f2; color: white; padding: 12px 25px; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; width: 100%; margin-bottom: 10px; font-weight: bold; }
-    .btn-volver { background: #e4e6eb; color: #1c1e21; width: 36px; height: 36px; border-radius: 50%; padding: 0; font-size: 18px; margin: 0; display: flex; align-items: center; justify-content: center; }
+    .btn-volver { background: #e4e6eb; color: #1c1e21; width: 36px; height: 36px; border-radius: 50%; padding: 0; font-size: 18px; margin: 0; width: 36px; }
     .btn-secundario { background: transparent; border: 1px solid #1877f2; color: #1877f2; }
-    .btn-borrar { background: #dc2626; width: auto; padding: 8px 15px; font-size: 13px; }
-
-    /* ADMIN */
+    .btn-borrar { background: #dc2626; width: auto; padding: 8px 15px; font-size: 13px; margin: 0; }
     .tarjeta { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 30px; background: white; }
     .tarjeta h2 { margin-bottom: 20px; color: #1877f2; font-size: 28px; }
     input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e4e6eb; border-radius: 8px; background: white; color: #1c1e21; font-size: 15px; }
@@ -81,29 +65,21 @@
     textarea { height: 100px; resize: none; }
     input::placeholder, textarea::placeholder { color: #65676b; }
     .error { color: #dc2626; font-size: 14px; margin-bottom: 10px; }
-    .admin-contenido { padding: 15px; background: #f0f2f5; min-height: 100vh; }
+    .admin-contenido { padding: 15px; background: #f0f2f5; min-height: 100vh; padding-bottom: 70px; }
     .admin-card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; }
     .admin-card h3 { color: #1877f2; margin-bottom: 15px; font-size: 16px; }
-    .admin-producto { background: #f0f2f5; border-radius: 8px; padding: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .admin-producto { background: #f0f2f5; border-radius: 8px; padding: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .admin-producto span { flex: 1; font-size: 14px; color: #1c1e21; }
     .cargando { text-align: center; padding: 40px; color: #65676b; font-size: 16px; }
     .fila-colores { display: flex; gap: 10px; margin-bottom: 10px; }
     .fila-colores input[type="color"] { flex: 1; }
-
-    /* NAV INFERIOR */
-    .nav-inferior { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 4px rgba(0,0,0,0.1); z-index: 100; }
-    .nav-btn { background: none; border: none; color: #65676b; font-size: 24px; cursor: pointer; padding: 5px 15px; width: auto; margin: 0; display: flex; flex-direction: column; align-items: center; font-size: 20px; }
-    .nav-btn span { font-size: 11px; color: #65676b; margin-top: 2px; }
-    .nav-btn.activo { color: #1877f2; }
-    .nav-btn.activo span { color: #1877f2; }
     .contenido-principal { padding-bottom: 70px; }
-
     @keyframes entrar { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     .producto-item { animation: entrar 0.3s ease; }
   </style>
 </head>
 <body>
 
-<!-- PANTALLA PRINCIPAL -->
 <div class="pantalla" id="inicio">
   <div class="cabecera">
     <h2>📱 Leo Mobile</h2>
@@ -122,7 +98,6 @@
   </div>
 </div>
 
-<!-- DETALLE PRODUCTO -->
 <div class="pantalla oculto" id="detalleProducto">
   <div class="cabecera">
     <button class="btn-volver" onclick="irA('inicio')">←</button>
@@ -141,7 +116,7 @@
       <div class="detalle-precio" id="detallePrecio"></div>
       <div class="detalle-ubicacion">📍 Cúcuta, Norte de Santander</div>
     </div>
-    <div class="detalle-whatsapp" style="padding:15px;background:white;margin-bottom:8px;">
+    <div class="detalle-whatsapp">
       <h3>🟢 Envía un mensaje al vendedor</h3>
       <button class="btn-whatsapp" onclick="contactarVendedor()">💬 Enviar mensaje por WhatsApp</button>
     </div>
@@ -152,7 +127,6 @@
   </div>
 </div>
 
-<!-- RESEÑAS -->
 <div class="pantalla oculto" id="resenas">
   <div class="cabecera">
     <button class="btn-volver" onclick="irA('inicio')">←</button>
@@ -176,7 +150,6 @@
   </div>
 </div>
 
-<!-- LOGIN ADMIN -->
 <div class="pantalla oculto" id="loginAdmin">
   <div class="tarjeta">
     <h2>🔐 Admin</h2>
@@ -187,7 +160,6 @@
   </div>
 </div>
 
-<!-- PANEL ADMIN -->
 <div class="pantalla oculto" id="panelAdmin">
   <div class="cabecera">
     <button class="btn-volver" onclick="irA('inicio')">←</button>
@@ -246,7 +218,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlRNjt2YANwUD-8iix4cixu7p0ug-EVWQ",
@@ -278,10 +250,14 @@ window.irA = function(pantallaId) {
 async function cargarProductos() {
   const grid = document.querySelector("#gridProductos");
   grid.innerHTML = "<div class='cargando' style='grid-column:span 2'>⏳ Cargando productos...</div>";
-  const snapshot = await getDocs(collection(db, "productos"));
-  todosProductos = [];
-  snapshot.forEach(d => todosProductos.push({ id: d.id, ...d.data() }));
-  mostrarProductos(todosProductos);
+  try {
+    const snapshot = await getDocs(collection(db, "productos"));
+    todosProductos = [];
+    snapshot.forEach(d => todosProductos.push({ id: d.id, ...d.data() }));
+    mostrarProductos(todosProductos);
+  } catch(e) {
+    grid.innerHTML = "<div class='cargando' style='grid-column:span 2'>❌ Error cargando productos</div>";
+  }
 }
 
 function mostrarProductos(lista) {
@@ -292,7 +268,7 @@ function mostrarProductos(lista) {
     return;
   }
   lista.forEach(p => {
-    const fotos = [p.foto1, p.foto2, p.foto3, p.foto4].filter(f => f && f.trim() !== "");
+    const fotos = [p.foto1, p.foto2, p.foto3, p.foto4, p.foto].filter(f => f && f.trim() !== "");
     const foto = fotos[0] || "https://via.placeholder.com/300";
     grid.innerHTML += `
       <div class="producto-item" onclick="abrirDetalle('${p.id}')">
@@ -308,7 +284,10 @@ function mostrarProductos(lista) {
 
 window.filtrarProductos = function() {
   const busqueda = document.querySelector("#busqueda").value.toLowerCase();
-  const filtrados = todosProductos.filter(p => p.nombre.toLowerCase().includes(busqueda) || p.descripcion.toLowerCase().includes(busqueda));
+  const filtrados = todosProductos.filter(p =>
+    p.nombre.toLowerCase().includes(busqueda) ||
+    (p.descripcion && p.descripcion.toLowerCase().includes(busqueda))
+  );
   mostrarProductos(filtrados);
 }
 
@@ -320,8 +299,8 @@ window.abrirDetalle = function(id) {
   document.querySelector("#detalleTitulo").textContent = p.nombre;
   document.querySelector("#detalleNombre").textContent = p.nombre;
   document.querySelector("#detallePrecio").textContent = p.precio;
-  document.querySelector("#detalleDescripcion").textContent = p.descripcion;
-  const fotos = [p.foto1, p.foto2, p.foto3, p.foto4].filter(f => f && f.trim() !== "");
+  document.querySelector("#detalleDescripcion").textContent = p.descripcion || "";
+  const fotos = [p.foto1, p.foto2, p.foto3, p.foto4, p.foto].filter(f => f && f.trim() !== "");
   if (fotos.length === 0) fotos.push("https://via.placeholder.com/300");
   const carrusel = document.querySelector("#carruselDetalle");
   carrusel.querySelectorAll("img").forEach(img => img.remove());
@@ -336,16 +315,16 @@ window.abrirDetalle = function(id) {
     carrusel.insertBefore(img, nav);
     dots.innerHTML += `<span class="${i === 0 ? 'activa' : ''}" onclick="irFotoDetalle(${i})"></span>`;
   });
-  if (fotos.length <= 1) nav.style.display = "none";
-  else nav.style.display = "flex";
+  nav.style.display = fotos.length <= 1 ? "none" : "flex";
   window.irA("detalleProducto");
 }
 
 window.moverDetalle = function(dir) {
   if (!productoActual) return;
-  const fotos = [productoActual.foto1, productoActual.foto2, productoActual.foto3, productoActual.foto4].filter(f => f && f.trim() !== "");
+  const fotos = [productoActual.foto1, productoActual.foto2, productoActual.foto3, productoActual.foto4, productoActual.foto].filter(f => f && f.trim() !== "");
   const imgs = document.querySelectorAll("#carruselDetalle img");
   const dots = document.querySelectorAll("#dotsDetalle span");
+  if (imgs.length <= 1) return;
   imgs[indexFotoDetalle].classList.remove("activa");
   dots[indexFotoDetalle].classList.remove("activa");
   indexFotoDetalle = (indexFotoDetalle + dir + fotos.length) % fotos.length;
@@ -359,8 +338,8 @@ window.irFotoDetalle = function(i) {
   imgs[indexFotoDetalle].classList.remove("activa");
   dots[indexFotoDetalle].classList.remove("activa");
   indexFotoDetalle = i;
-  imgs[indexFotoDetalle].classList.add("activa");
-  dots[indexFotoDetalle].classList.add("activa");
+  imgs[i].classList.add("activa");
+  dots[i].classList.add("activa");
 }
 
 window.contactarVendedor = function() {
@@ -377,94 +356,113 @@ window.selEstrellas = function(n) {
 async function cargarResenas() {
   const lista = document.querySelector("#listaResenas");
   lista.innerHTML = "<div class='cargando'>⏳ Cargando reseñas...</div>";
-  const snapshot = await getDocs(collection(db, "productos"));
-  lista.innerHTML = "";
-  if (snapshot.empty) { lista.innerHTML = "<div class='cargando'>📭 Aún no hay reseñas</div>"; return; }
-  snapshot.forEach(d => {
-    const r = d.data();
-    lista.innerHTML += `
-      <div class="resena-card">
-        <h4>${r.nombre}</h4>
-        <div>${"⭐".repeat(r.estrellas)}</div>
-        <p>${r.comentario}</p>
-      </div>`;
-  });
+  try {
+    const snapshot = await getDocs(collection(db, "resenas"));
+    lista.innerHTML = "";
+    if (snapshot.empty) { lista.innerHTML = "<div class='cargando'>📭 Aún no hay reseñas</div>"; return; }
+    snapshot.forEach(d => {
+      const r = d.data();
+      lista.innerHTML += `
+        <div class="resena-card">
+          <h4>${r.nombre}</h4>
+          <div>${"⭐".repeat(r.estrellas)}</div>
+          <p>${r.comentario}</p>
+        </div>`;
+    });
+  } catch(e) { lista.innerHTML = "<div class='cargando'>❌ Error</div>"; }
 }
 
 async function cargarResenasAdmin() {
   const lista = document.querySelector("#listaResenasAdmin");
   lista.innerHTML = "";
-  const snapshot = await getDocs(query(collection(db, "resenas"), orderBy("fecha", "desc")));
-  if (snapshot.empty) { lista.innerHTML = "<div class='cargando'>📭 No hay reseñas</div>"; return; }
-  snapshot.forEach(d => {
-    const r = d.data();
-    lista.innerHTML += `
-      <div class="admin-producto">
-        <span>${r.nombre} - ${"⭐".repeat(r.estrellas)}</span>
-        <button class="btn-borrar" onclick="borrarResena('${d.id}')">🗑️</button>
-      </div>`;
-  });
+  try {
+    const snapshot = await getDocs(collection(db, "resenas"));
+    if (snapshot.empty) { lista.innerHTML = "<div class='cargando'>📭 No hay reseñas</div>"; return; }
+    snapshot.forEach(d => {
+      const r = d.data();
+      lista.innerHTML += `
+        <div class="admin-producto">
+          <span>${r.nombre} - ${"⭐".repeat(r.estrellas)}</span>
+          <button class="btn-borrar" onclick="borrarResena('${d.id}')">🗑️</button>
+        </div>`;
+    });
+  } catch(e) { lista.innerHTML = "<div class='cargando'>❌ Error</div>"; }
 }
 
 window.agregarResena = async function() {
   const nombre = document.querySelector("#nombreResena").value;
   const comentario = document.querySelector("#comentarioResena").value;
   if (!nombre || !comentario || estrellasSeleccionadas === 0) { alert("Completa tu nombre, estrellas y comentario"); return; }
-  await addDoc(collection(db, "resenas"), { nombre, comentario, estrellas: estrellasSeleccionadas, fecha: new Date().toISOString() });
-  document.querySelector("#nombreResena").value = "";
-  document.querySelector("#comentarioResena").value = "";
-  estrellasSeleccionadas = 0;
-  document.querySelectorAll("#estrellasInput span").forEach(s => s.classList.remove("activa"));
-  alert("✅ Reseña publicada");
-  cargarResenas();
+  try {
+    await addDoc(collection(db, "resenas"), { nombre, comentario, estrellas: estrellasSeleccionadas, fecha: new Date().toISOString() });
+    document.querySelector("#nombreResena").value = "";
+    document.querySelector("#comentarioResena").value = "";
+    estrellasSeleccionadas = 0;
+    document.querySelectorAll("#estrellasInput span").forEach(s => s.classList.remove("activa"));
+    alert("✅ Reseña publicada");
+    cargarResenas();
+  } catch(e) { alert("❌ Error al publicar reseña"); }
 }
 
 window.borrarResena = async function(id) {
-  await deleteDoc(doc(db, "resenas", id));
-  cargarResenasAdmin();
-  alert("🗑️ Reseña borrada");
+  try {
+    await deleteDoc(doc(db, "resenas", id));
+    cargarResenasAdmin();
+    alert("🗑️ Reseña borrada");
+  } catch(e) { alert("❌ Error al borrar"); }
 }
 
 async function cargarAdmin() {
   const lista = document.querySelector("#listaAdmin");
-  lista.innerHTML = "";
-  const snapshot = await getDocs(collection(db, "productos"));
-  if (snapshot.empty) { lista.innerHTML = "<div class='cargando'>📭 No hay productos</div>"; return; }
-  snapshot.forEach(d => {
-    const p = d.data();
-    lista.innerHTML += `
-      <div class="admin-producto">
-        <span>${p.nombre} - ${p.precio}</span>
-        <button class="btn-borrar" onclick="borrarProducto('${d.id}')">🗑️</button>
-      </div>`;
-  });
+  lista.innerHTML = "<div class='cargando'>⏳ Cargando...</div>";
+  try {
+    const snapshot = await getDocs(collection(db, "productos"));
+    lista.innerHTML = "";
+    if (snapshot.empty) { lista.innerHTML = "<div class='cargando'>📭 No hay productos</div>"; return; }
+    snapshot.forEach(d => {
+      const p = d.data();
+      lista.innerHTML += `
+        <div class="admin-producto">
+          <span>${p.nombre} - ${p.precio}</span>
+          <button class="btn-borrar" onclick="borrarProducto('${d.id}')">🗑️</button>
+        </div>`;
+    });
+  } catch(e) { lista.innerHTML = "<div class='cargando'>❌ Error</div>"; }
 }
 
 window.agregarProducto = async function() {
-  const nombre = document.querySelector("#nombreProducto").value;
-  const precio = document.querySelector("#precioProducto").value;
-  const foto1 = document.querySelector("#foto1Producto").value;
-  const foto2 = document.querySelector("#foto2Producto").value;
-  const foto3 = document.querySelector("#foto3Producto").value;
-  const foto4 = document.querySelector("#foto4Producto").value;
-  const desc = document.querySelector("#descProducto").value;
+  const nombre = document.querySelector("#nombreProducto").value.trim();
+  const precio = document.querySelector("#precioProducto").value.trim();
+  const foto1 = document.querySelector("#foto1Producto").value.trim();
+  const foto2 = document.querySelector("#foto2Producto").value.trim();
+  const foto3 = document.querySelector("#foto3Producto").value.trim();
+  const foto4 = document.querySelector("#foto4Producto").value.trim();
+  const desc = document.querySelector("#descProducto").value.trim();
   if (!nombre || !precio || !foto1) { alert("Pon al menos nombre, precio y foto principal"); return; }
-  await addDoc(collection(db, "productos"), { nombre, precio, foto1, foto2, foto3, foto4, descripcion: desc, fecha: new Date().toISOString() });
-  document.querySelector("#nombreProducto").value = "";
-  document.querySelector("#precioProducto").value = "";
-  document.querySelector("#foto1Producto").value = "";
-  document.querySelector("#foto2Producto").value = "";
-  document.querySelector("#foto3Producto").value = "";
-  document.querySelector("#foto4Producto").value = "";
-  document.querySelector("#descProducto").value = "";
-  alert("✅ Producto publicado");
-  cargarAdmin();
+  try {
+    await addDoc(collection(db, "productos"), {
+      nombre, precio, foto1, foto2, foto3, foto4, descripcion: desc, fecha: new Date().toISOString()
+    });
+    document.querySelector("#nombreProducto").value = "";
+    document.querySelector("#precioProducto").value = "";
+    document.querySelector("#foto1Producto").value = "";
+    document.querySelector("#foto2Producto").value = "";
+    document.querySelector("#foto3Producto").value = "";
+    document.querySelector("#foto4Producto").value = "";
+    document.querySelector("#descProducto").value = "";
+    alert("✅ Producto publicado");
+    cargarAdmin();
+  } catch(e) { alert("❌ Error: " + e.message); }
 }
 
 window.borrarProducto = async function(id) {
-  await deleteDoc(doc(db, "productos", id));
-  cargarAdmin();
-  alert("🗑️ Producto borrado");
+  try {
+    await deleteDoc(doc(db, "productos", id));
+    todosProductos = todosProductos.filter(p => p.id !== id);
+    mostrarProductos(todosProductos);
+    cargarAdmin();
+    alert("🗑️ Producto borrado");
+  } catch(e) { alert("❌ Error al borrar: " + e.message); }
 }
 
 window.entrarAdmin = function() {
@@ -524,7 +522,6 @@ window.restaurarColores = function() {
   alert("✅ Colores restaurados");
 }
 
-// Cargar estilos guardados
 const bgLeo = localStorage.getItem("bgLeo");
 const cabeceraLeo = localStorage.getItem("cabeceraLeo");
 const letrasLeo = localStorage.getItem("letrasLeo");
